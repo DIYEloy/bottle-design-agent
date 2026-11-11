@@ -80,3 +80,36 @@ print(profile["width_px"], profile["height_px"], profile["dpi"])
 ## Continue work in another chat
 
 See [docs/CHAT_HANDOFF.md](docs/CHAT_HANDOFF.md) for the complete project state, fixed requirements, current limitations, rev0.1 definition of done, engineering rules, and a ready-to-use continuation prompt. Continue on `feat/initial-agent-scaffold`; do not merge without the user's instruction.
+
+
+## Run rev0.1 locally (offline mock mode)
+
+Install Python 3.11+, then:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+pytest
+bottle-agent profiles
+bottle-agent validate examples/sample_job.json
+bottle-agent preview examples/sample_job.json --output output/preview.png
+```
+
+The preview command runs the deterministic mock agents and writes a small PNG preview plus a JSON report. It does not call an AI model or inspect image pixels.
+
+After reviewing a preview, production-size export is an explicit operation:
+
+```bash
+bottle-agent export examples/sample_job.json --output-dir output --approve
+```
+
+This writes the exact profile-size PNG, physical-size vector SVG, and PDF. A flattened PSD is generated only if ImageMagick is installed; the report clearly marks it as flattened. Install ImageMagick separately if a flattened PSD is needed. Layered PSD authoring is not claimed in rev0.1.
+
+### Current rev0.1 boundaries
+
+- The offline mock backend makes the workflow runnable without API keys; it is not a substitute for a vision-capable AI provider.
+- The current mock composition is a technical starter layout, not a polished design generator.
+- Raster asset placement and advanced typography/layout are future refinements.
+- Printer-specific seam, bleed, and safe-area settings must be calibrated against a physical bottle and transfer process.
+- The 1200 DPI raster canvas can be very large. Ensure adequate RAM and disk space before production export.
