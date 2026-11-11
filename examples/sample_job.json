@@ -1,0 +1,11 @@
+{
+  "theme": "Botanical line art",
+  "profile_id": "fat_500ml",
+  "reference_assets": [],
+  "approved_assets": [],
+  "required_text": ["YOUR WEBSITE HERE", "BPA FREE"],
+  "optional_elements": ["botanical linework", "decorative border"],
+  "notes": "Sample only. Replace placeholder copy with approved exact wording.",
+  "black_and_white_only": true,
+  "dpi": 1200
+}
