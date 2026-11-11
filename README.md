@@ -30,6 +30,19 @@ Profile definitions live in `profiles/`. Physical dimensions are calculated from
 - Export targets: PDF, PNG, SVG, and PSD. PSD support must be verified before claiming that its layers are editable.
 - Printer-specific bleed, seam overlap, and safe areas must be confirmed before production. The current 3 mm safe margin is only a placeholder.
 
+## Real artwork vs mock output
+
+`agents/mock_backend.py` produces a technical placeholder (a border and the
+theme as a title) so the pipeline runs without API keys. It is not a design
+generator.
+
+Finished, printable artwork lives in `designs/`. See
+[designs/README.md](designs/README.md).
+
+```bash
+python -m designs.baby_shower_fat500 --outdir output --raster
+```
+
 ## Architecture
 
 See [docs/architecture.md](docs/architecture.md) and [agents/README.md](agents/README.md).
@@ -63,6 +76,7 @@ print(profile["width_px"], profile["height_px"], profile["dpi"])
 - `profiles/` — bottle templates
 - `assets/` — approved user-supplied assets (not committed unless authorized)
 - `docs/` — architecture and production notes
+- `designs/` — real, non-mock artwork generators
 - `tests/` — automated tests
 - `output/` — local generated files; production artwork is ignored by Git
 
@@ -75,6 +89,8 @@ print(profile["width_px"], profile["height_px"], profile["dpi"])
 5. PNG/PDF/SVG export pipeline.
 6. Layered PSD export and compatibility tests.
 7. ChatGPT interface and orchestrated specialist agents.
+8. Proportional layout so one design reflows across every profile.
+9. Shared brand components (nutrition panel, certification icons, social row).
 
 
 ## Continue work in another chat

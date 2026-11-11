@@ -8,3 +8,5 @@ venv/
 output/*
 !output/.gitkeep
 .tmp/
+bottle_design_agent.egg-info/
+*.egg-info/
