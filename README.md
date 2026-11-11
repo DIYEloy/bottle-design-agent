@@ -40,7 +40,7 @@ Finished, printable artwork lives in `designs/`. See
 [designs/README.md](designs/README.md).
 
 ```bash
-python -m designs.baby_shower_fat500 --outdir output --raster
+python -m designs.baby_shower --all --outdir output --raster
 ```
 
 ## Model tiering (cost)

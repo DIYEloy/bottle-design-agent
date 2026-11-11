@@ -18,7 +18,8 @@ spec, dimensions, and DPI still come from `profiles/`.
 ## Running
 
 ```bash
-python -m designs.baby_shower_fat500 --outdir output --raster
+python -m designs.baby_shower --profile fat_500ml --outdir output --raster
+python -m designs.baby_shower --all --outdir output          # every profile
 ```
 
 - without `--raster`: writes the SVG master only (fast)
@@ -34,21 +35,39 @@ python -m designs.baby_shower_fat500 --outdir output --raster
 - Stroke weights are expressed against the full-resolution canvas:
   `HEAVY=26`, `MED=16`, `LIGHT=11`, `HAIR=7` at 9000 px wide.
 
+## Responsive layout
+
+One composition serves all five profiles, which differ in aspect ratio by
+2.5x. Pure scaling cannot do this: a 7800x6000 layout squeezed into 7800x2400
+overflows by a factor of two and a half. Instead the design selects an
+*arrangement* by aspect band, then places everything in normalised
+coordinates inside the printable sector.
+
+| Band | Aspect (h/printable w) | Profiles | Arrangement |
+|---|---|---|---|
+| `tall` | >= 0.65 | fat_500ml | Three bands: hero, medallions, footer |
+| `medium` | 0.40 - 0.65 | fat_1l, long_1l, long_500ml | Two bands, no side column |
+| `short` | < 0.40 | fat_250ml | Single horizontal strip |
+
+Two sizing systems, deliberately. Decorative sizes (`c.s(...)`) scale with the
+canvas; furniture sizes (`c.mm(...)`) are absolute millimetres, because a
+nutrition panel must stay legible at a fixed physical size. Legibility does
+not scale.
+
 ## Known limitations
 
-- **Coordinates are absolute, not proportional.** `baby_shower_fat500` is laid
-  out for a 9000x6000 canvas. Pointing `PROFILE_ID` at a differently shaped
-  profile will reflow the canvas but *not* rescale the composition. Making the
-  layout proportional is the single highest-value improvement here.
-- **Shared primitives are not yet extracted.** The drawing helpers and motif
-  functions are duplicated per design module. They belong in a shared
-  `designs/primitives.py` once a second design exists to validate the
-  interface.
 - **Text is rendered as live text, not outlines.** The SVG master depends on
   `Inter` and `TeX Gyre Chorus` being installed to render identically
   elsewhere. The exported PNG and PDF embed the glyphs and are unaffected.
+- **Text metrics are estimated, not measured.** `Canvas.est_width` approximates
+  rendered width from character count to avoid a font-metrics dependency. It
+  is tuned to prevent overflow rather than to be exact, so it errs toward
+  shrinking text slightly more than necessary.
 - Illustrations are constructed from geometric primitives. They are clean and
   consistent, but they are not hand-drawn character illustration.
+- `cert_row` draws placeholder marks. Once the component library is extracted,
+  place the real assets through `engine.components` instead -- several are
+  trademarks and must not be approximated.
 
 ## Reusable brand components
 
