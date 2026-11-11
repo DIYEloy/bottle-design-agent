@@ -1,0 +1,15 @@
+{
+  "id": "long_1l",
+  "name": "LONG 1 L",
+  "shape": "LONG",
+  "capacity_ml": 1000,
+  "width_px": 12000,
+  "height_px": 6000,
+  "dpi": 1200,
+  "physical_width_mm": 254,
+  "physical_height_mm": 127,
+  "color_mode": "1-bit-or-grayscale",
+  "artwork_color": "black-and-white",
+  "safe_margin_mm": 3,
+  "notes": "Dimensions supplied by the user; confirm printer and wrap overlap before production."
+}
