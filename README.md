@@ -75,3 +75,8 @@ print(profile["width_px"], profile["height_px"], profile["dpi"])
 5. PNG/PDF/SVG export pipeline.
 6. Layered PSD export and compatibility tests.
 7. ChatGPT interface and orchestrated specialist agents.
+
+
+## Continue work in another chat
+
+See [docs/CHAT_HANDOFF.md](docs/CHAT_HANDOFF.md) for the complete project state, fixed requirements, current limitations, rev0.1 definition of done, engineering rules, and a ready-to-use continuation prompt. Continue on `feat/initial-agent-scaffold`; do not merge without the user's instruction.
