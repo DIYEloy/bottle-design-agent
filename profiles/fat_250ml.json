@@ -1,0 +1,15 @@
+{
+  "id": "fat_250ml",
+  "name": "FAT 250 ml",
+  "shape": "FAT",
+  "capacity_ml": 250,
+  "width_px": 9000,
+  "height_px": 2400,
+  "dpi": 1200,
+  "physical_width_mm": 190.5,
+  "physical_height_mm": 50.8,
+  "color_mode": "1-bit-or-grayscale",
+  "artwork_color": "black-and-white",
+  "safe_margin_mm": 3,
+  "notes": "Dimensions supplied by the user; confirm printer and wrap overlap before production."
+}
