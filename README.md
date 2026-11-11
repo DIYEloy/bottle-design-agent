@@ -43,6 +43,39 @@ Finished, printable artwork lives in `designs/`. See
 python -m designs.baby_shower_fat500 --outdir output --raster
 ```
 
+## Model tiering (cost)
+
+Specialists are routed by tier, so only the steps that need reasoning get an
+expensive model. See `agents/tiered.py`.
+
+| Tier | Agents | Calls per job |
+|---|---|---|
+| `BRAIN` | theme_planner, layout | 2 |
+| `WORKER` | image_analysis, asset_placement, quality_review | 3 |
+| `LOCAL` | rendering, halftoning, export, measurement | 0 |
+
+Credentials come from the environment only. With none set, the offline mock
+backend runs and the pipeline stays usable.
+
+```bash
+export BOTTLE_PROVIDER=anthropic       # or openai
+export BOTTLE_BRAIN_MODEL=<model-id>
+export BOTTLE_WORKER_MODEL=<small-model-id>
+export ANTHROPIC_API_KEY=...
+```
+
+## HTTP API
+
+```bash
+pip install -e ".[api]"
+uvicorn api.app:app --reload
+```
+
+`POST /jobs` submits a job and returns an id; `GET /jobs/{id}` polls it;
+`GET /jobs/{id}/files/{name}` downloads artwork. Preview-first is the default:
+production export requires `auto_export: true` or a separate approved run.
+Not authenticated — see the deployment notes in `api/app.py` before exposing it.
+
 ## Architecture
 
 See [docs/architecture.md](docs/architecture.md) and [agents/README.md](agents/README.md).
@@ -76,7 +109,9 @@ print(profile["width_px"], profile["height_px"], profile["dpi"])
 - `profiles/` — bottle templates
 - `assets/` — approved user-supplied assets (not committed unless authorized)
 - `docs/` — architecture and production notes
-- `designs/` — real, non-mock artwork generators
+- `designs/` — real artwork generators, plus `style_guide.md` and `style.json`
+- `api/` — HTTP API for automated generation
+- `tools/` — asset extraction utilities
 - `tests/` — automated tests
 - `output/` — local generated files; production artwork is ignored by Git
 

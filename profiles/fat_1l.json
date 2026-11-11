@@ -11,5 +11,9 @@
   "color_mode": "1-bit-or-grayscale",
   "artwork_color": "black-and-white",
   "safe_margin_mm": 3,
-  "notes": "Dimensions supplied by the user; confirm printer and wrap overlap before production."
+  "notes": "Seam overlap derived by measuring supplied production templates: both keep all content within ~7800px of the 9000px canvas (600px / 12.7mm per side), matching the 165.1mm Illustrator artboard against the 190.5mm PSD canvas. safe_margin_mm is an additional placeholder margin inside the printable sector and is NOT printer-confirmed.",
+  "seam_overlap_mm": 12.7,
+  "printable_width_mm": 228.6,
+  "printable_width_px": 10800,
+  "safe_area_source": "assumed-from-FAT-templates"
 }

@@ -10,3 +10,10 @@ output/*
 .tmp/
 bottle_design_agent.egg-info/
 *.egg-info/
+
+# customer assets: metadata only is tracked
+assets/*
+!assets/README.md
+!assets/components/
+assets/components/*
+!assets/components/manifest.json
