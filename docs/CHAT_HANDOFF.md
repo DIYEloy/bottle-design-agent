@@ -56,13 +56,13 @@ The current PR branch contains:
 - GitHub Actions workflow for Python tests.
 - Architecture and role documentation.
 
-**Important limitations:** the LLM backend is currently only a protocol; no provider adapter is configured. SVG composition, preview rendering, real file exports, PSD layer support, and a ChatGPT-facing entry point are not implemented yet. Do not describe the system as a working autonomous image-generation service until these are actually implemented and tested.
+**Current limitations:** the provider-neutral LLM backend is still an adapter protocol; no external provider or credentials are configured. An offline mock backend now makes the pipeline runnable, and basic SVG composition, preview rendering, PNG/PDF/SVG export, and an optional flattened ImageMagick PSD path have been added. The mock layout is a technical starter, not a polished AI design. Approved raster/vector asset placement, production-quality layout, layered PSD, a live provider adapter, and a ChatGPT-facing entry point remain incomplete. Do not describe the system as a fully autonomous AI artwork service.
 
 ## rev0.1 definition of done
 
 Deliver a small but end-to-end usable first version. Prefer a working deterministic core and clean interfaces over premature distributed agents.
 
-1. **Runnable local application**
+1. **Runnable local application** — partially implemented: `bottle-agent` CLI supports profiles, validate, preview, and explicit export using the offline mock backend.
    - Provide a documented CLI or local API to create a design job from a theme, profile, and asset manifest.
    - Provide a mock/deterministic agent backend so the entire workflow can be exercised without API keys.
    - Keep the model-provider adapter pluggable and read credentials only from environment variables.
@@ -73,13 +73,13 @@ Deliver a small but end-to-end usable first version. Prefer a working determinis
    - Include a deterministic mock backend and fixtures for tests.
    - Do not claim image inspection if no image bytes or supported vision input were actually provided to the backend.
 
-3. **Deterministic vector artwork**
+3. **Deterministic vector artwork** — basic normalized SVG primitives (rectangles, circles, lines, and text) plus a small preview renderer are implemented; approved image asset embedding and richer layout remain.
    - Implement a profile-aware SVG generator using exact canvas dimensions and a configurable safe area.
    - Support basic vector primitives, text, monochrome fills/strokes, and placement of approved raster/vector assets by file reference.
    - Keep SVG as the editable master. Escape text safely and validate asset paths.
    - Provide a small preview render without allocating the full production canvas unnecessarily.
 
-4. **Exports**
+4. **Exports** — SVG, PNG, and PDF paths are implemented; ImageMagick can optionally create a flattened PSD. Layered PSD is not supported or claimed.
    - Implement and test SVG, PNG, and PDF.
    - Embed/record 1200 DPI for raster output and verify actual pixel dimensions and physical PDF page size.
    - PSD is a required target format: implement a real, tested conversion path if feasible. If layer-preserving PSD cannot be delivered reliably in rev0.1, document the exact limitation and provide a validated flattened PSD only if genuinely generated. Never create a renamed PNG and call it PSD.
@@ -101,16 +101,15 @@ Deliver a small but end-to-end usable first version. Prefer a working determinis
 
 ## Suggested implementation sequence
 
-1. Inspect the branch and run the existing tests; fix any defects.
-2. Add a typed job manifest and asset-manifest validation.
-3. Implement deterministic SVG composition and a low-resolution preview renderer.
-4. Implement the mock backend and make the whole agent pipeline runnable.
-5. Add a CLI with `validate`, `preview`, and `export` commands.
-6. Add PNG/PDF/SVG exporters and validation.
-7. Investigate PSD generation and test in a compatible reader or with a reliable parser.
-8. Add end-to-end tests using a synthetic sample job and generated assets.
-9. Update README, this handoff, and PR description with actual capabilities and test results.
-10. Leave the PR open for the user to review and test; do not merge automatically.
+1. Run the GitHub Actions tests on the latest branch head and fix failures.
+2. Add strict asset-manifest validation and safe file-backed raster/vector asset placement.
+3. Improve the mock composition to include a more useful, profile-aware visual layout while clearly labeling it as mock output.
+4. Add exporter tests for raster dimensions/DPI metadata and PDF physical page size.
+5. Investigate PSD generation in a real compatible reader; keep flattened/layered status explicit.
+6. Add a configurable provider adapter (credentials only via environment variables) if a safe supported provider can be used.
+7. Add end-to-end tests using a synthetic sample job and generated assets.
+8. Update README, this handoff, and PR description with actual capabilities and test results.
+9. Leave the PR open for the user to review and test; do not merge automatically.
 
 ## Engineering rules
 
