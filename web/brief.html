@@ -42,7 +42,8 @@
         cursor:pointer;background:var(--paper);user-select:none}
   .chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
   .btn{appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;
-       padding:12px 20px;border-radius:9px;font:inherit;font-weight:700;cursor:pointer}
+       padding:12px 20px;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;
+       display:inline-block;text-decoration:none;line-height:1.2;text-align:center}
   .btn:hover{opacity:.87}
   .btn.ghost{background:var(--paper);color:var(--ink)}
   .btn:disabled{opacity:.4;cursor:not-allowed}
@@ -169,7 +170,7 @@
   </div>
 
   <div class="row">
-    <button class="btn" id="launch">Copy briefing and open</button>
+    <a class="btn" id="launch" target="_blank" rel="noopener" href="#">Copy briefing and open</a>
     <button class="btn ghost" id="copyonly">Copy briefing only</button>
   </div>
   <div class="status" id="launchStatus"></div>
@@ -227,6 +228,18 @@
 
 <script>
 "use strict";
+
+/* ------------------------------------------------------------------ CONFIG
+   Host design-rules.md at a publicly reachable URL and put it here. The
+   assistant is asked to open it, which keeps the pasted prompt short and
+   keeps the rules under your control rather than in text a customer can
+   trim. Leave it empty and the page falls back to a longer inline prompt.
+
+   The URL must be public. A private GitHub repo is not readable by a
+   customer's AI assistant, and raw.githubusercontent.com links to private
+   repos will fail for them even though they work for you.                 */
+const RULES_URL = "";
+/* --------------------------------------------------------------------- */
 
 const PROFILES = [
   {id:"fat_250ml",  name:"FAT 250 ml",  ml:250,  w:9000,  h:2400, mm:[190.5,50.8],  pr:165.1},
@@ -355,45 +368,81 @@ function say(el, msg, kind){
 function briefingText(){
   const p = profile();
   const b = brief();
-  return [
-`I am ordering custom printed water bottles and I need help describing the artwork I want. Please interview me.`,
-``,
-`THE CONSTRAINTS (these are fixed, please respect them):`,
-`- Printing is ONE ink, black only, on a clear plastic bottle.`,
-`- There is no white ink. Anything white is the transparent bottle showing through.`,
-`- No colour and no grey. Photographs must be converted to a black-and-white dot screen.`,
-`- Bottle: ${p.name}, label area ${p.mm[0]} x ${p.mm[1]} mm, safe printable width ${p.pr} mm.`,
-`- The label must also carry a nutrition panel, certification marks and legal text,`,
-`  so roughly a quarter of the space is already spoken for.`,
-``,
-`WHAT I HAVE SO FAR:`,
-`- Brand or event: ${b.brand || "(not decided yet)"}`,
-`- Theme: ${b.theme || "(not decided yet)"}`,
-`- Style preference: ${b.technique}`,
-b.required_text.length ? `- Text that must appear: ${b.required_text.join(" | ")}` : `- Required text: (none yet)`,
-``,
-`HOW TO HELP ME:`,
-`1. Ask me up to five short questions, one at a time, to pin down the look,`,
-`   the mood, the motifs, and any text or logo that must appear.`,
-`2. Keep reminding me if I suggest something that cannot be printed in one black ink.`,
-`3. When we are done, output ONLY a JSON object in a code block, exactly in this shape,`,
-`   with no commentary after it:`,
+
+  // Carried inline even when the rules link is used, because the assistant
+  // may have browsing disabled or the fetch may fail silently. These are the
+  // constraints that must survive that.
+  const core = [
+`Non-negotiable, even if you cannot open the link:`,
+`- One ink, black only, printed on a CLEAR bottle.`,
+`- No colour. No grey. No white ink - white is the bare bottle showing through.`,
+`- No gradients, shadows or soft edges. Photos must be screened to black dots.`,
+`- No other companies' logos, licensed characters or real people's likenesses.`,
+`- Keep ink coverage under 30%. Nothing smaller than 1.5mm tall.`,
+`- A nutrition panel, certification marks and legal text already take about a`,
+`  quarter of the label. Plan around them.`
+  ].join("\n");
+
+  const mine = [
+`Bottle: ${p.name} - label ${p.mm[0]} x ${p.mm[1]} mm, safe print width ${p.pr} mm.`,
+`Brand or event: ${b.brand || "(not decided yet)"}`,
+`Theme so far: ${b.theme || "(not decided yet)"}`,
+`Style preference: ${b.technique}`,
+b.required_text.length
+  ? `Text that must appear: ${b.required_text.join(" | ")}`
+  : `Text that must appear: (none yet)`
+  ].join("\n");
+
+  const close = [
+`Interview me - up to five short questions, one at a time - then finish with`,
+`ONLY a JSON object in a code block, in this shape and nothing after it:`,
 ``,
 `{`,
 `  "schema": "bottle-brief/1",`,
-`  "brand": "...",`,
+`  "brand": "",`,
 `  "theme": "one or two sentences describing the artwork",`,
-`  "technique": "one of: line_art, halftone, type_led",`,
-`  "required_text": ["...", "..."],`,
-`  "motifs": ["...", "..."],`,
-`  "mood": ["...", "..."],`,
-`  "avoid": ["..."],`,
-`  "notes": "anything else the designer should know"`,
+`  "technique": "line_art | halftone | type_led",`,
+`  "required_text": [],`,
+`  "motifs": [],`,
+`  "mood": [],`,
+`  "avoid": [],`,
+`  "notes": ""`,
 `}`,
 ``,
-`Important: do not try to draw or generate the artwork itself. You do not have the`,
-`print templates. I only need the written brief.`
-].join("\n");
+`Do not attempt the finished print file - you do not have the templates, so`,
+`anything you generate would look plausible and be unusable. A rough black`,
+`line concept is welcome, clearly labelled as a concept.`
+  ].join("\n");
+
+  if (RULES_URL) {
+    return [
+`Open ${RULES_URL} and follow it. It is the full artwork brief for this job.`,
+`If you cannot open it, say so plainly and work from the constraints below.`,
+``,
+`I am ordering printed water bottles and need help writing an artwork brief.`,
+``,
+mine,
+``,
+core,
+``,
+close
+    ].join("\n");
+  }
+
+  // No rules URL configured: send the constraints in full.
+  return [
+`I am ordering printed water bottles and need help writing an artwork brief.`,
+`Please interview me.`,
+``,
+mine,
+``,
+core,
+``,
+`Also avoid: solid black across the whole label, lines thinner than 0.2mm,`,
+`white text sitting on an unprinted area, and metallic or fluorescent effects.`,
+``,
+close
+  ].join("\n");
 }
 
 /* ---------- launch ---------- */
@@ -430,19 +479,35 @@ $("copyonly").addEventListener("click", async () => {
       ok ? "ok" : "bad");
 });
 
-$("launch").addEventListener("click", async () => {
+/* The launch control is an <a target="_blank">, not a button calling
+   window.open. Awaiting the clipboard write before window.open ends the
+   user-activation window, and Safari, Firefox and hardened Chrome then treat
+   the call as an unsolicited popup and block it. A native anchor navigation
+   is never blocked, so the href is kept current and the clipboard write
+   happens alongside the navigation rather than before it. */
+function refreshLaunch(){
+  const a = $("launch");
+  if(!a) return;
+  a.href = providerUrl(provider.get(), briefingText());
+}
+document.addEventListener("input", refreshLaunch);
+document.addEventListener("change", refreshLaunch);
+$("provider").addEventListener("click", refreshLaunch);
+$("technique").addEventListener("click", refreshLaunch);
+$("components").addEventListener("click", refreshLaunch);
+refreshLaunch();
+
+$("launch").addEventListener("click", () => {
   const text = briefingText();
-  const which = provider.get();
-  const ok = await toClipboard(text);
-  const url = providerUrl(which, text);
-  const prefilled = url.includes("?q=");
-  window.open(url, "_blank", "noopener");
-  say("launchStatus",
-      (ok ? "Briefing copied to your clipboard. " : "") +
-      (prefilled
-        ? "A new tab is opening with it filled in. If the box is empty, just paste."
-        : "The briefing was too long for a link, so paste it into the new tab."),
-      "info");
+  const prefilled = $("launch").href.includes("?q=");
+  toClipboard(text).then(ok => {
+    say("launchStatus",
+        (ok ? "Briefing copied to your clipboard. " : "Could not copy automatically. ") +
+        (prefilled
+          ? "The new tab should open with it filled in. If the box is empty, paste it."
+          : "The briefing was too long to put in a link, so paste it into the new tab."),
+        "info");
+  });
 });
 
 /* ---------- read back what the assistant produced ---------- */

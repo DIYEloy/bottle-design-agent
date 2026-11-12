@@ -13,6 +13,29 @@ optional: it hands the client a pre-written briefing and opens ChatGPT or
 Claude so they can think the idea through, then reads the assistant's reply
 back into the form.
 
+## Configuring the rules link
+
+`design-rules.md` is the authoritative, customer-facing constraint document:
+what cannot be printed, what the canvas is, what space is already committed,
+and what the assistant should produce. Keeping it here rather than inside the
+pasted prompt means the rules stay short in the prompt, stay under your
+control, and cannot be quietly trimmed by a customer editing the text.
+
+Host it at a **publicly reachable URL** and set `RULES_URL` near the top of
+`brief.html`. Leave it empty and the page falls back to sending the
+constraints inline, which still works but makes the prompt longer.
+
+**The URL must be public.** A private GitHub repository is not readable by a
+customer's AI assistant, and `raw.githubusercontent.com` links to a private
+repo fail for them even though they work for you while signed in. The
+simplest arrangement is to put `design-rules.md` next to `brief.html` on
+whatever static host serves the page.
+
+A hard core of constraints is always sent inline regardless, because the
+assistant may have browsing disabled or the fetch may fail silently. Those
+are the ones that must survive that: single black ink, no colour, no grey,
+no white ink, no third-party logos, coverage under 30%.
+
 ## Why the AI step works the way it does
 
 **Clipboard first, link second.** Neither ChatGPT nor Claude documents a
@@ -32,6 +55,16 @@ truncated unpredictably.
 explicitly. The client's chat session has none of this repository — no
 profiles, no seam overlap, no components. Asking it for a print file would
 produce something unusable that looks plausible.
+
+## The launch control is an anchor, not a button
+
+Opening the assistant uses `<a target="_blank">` rather than `window.open`.
+Awaiting the clipboard write before calling `window.open` ends the
+user-activation window, and Safari, Firefox and hardened Chrome then classify
+the call as an unsolicited popup and block it — which is what happens if you
+write the obvious version of this handler. A native anchor navigation is
+never blocked, so the `href` is kept current as the form changes and the
+clipboard write runs alongside the navigation instead of before it.
 
 ## Pasted content is data, not instructions
 
