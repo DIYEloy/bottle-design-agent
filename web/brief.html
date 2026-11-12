@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bottle Artwork Brief</title>
+<style>
+  :root{
+    --ink:#0a0a0a; --paper:#ffffff; --muted:#6b6b6b; --line:#e4e4e4;
+    --soft:#f6f6f5; --accent:#0a0a0a; --warn:#8a5a00; --warnbg:#fff8e8;
+    --ok:#1d6b3f; --okbg:#eef7f1; --bad:#9b1c1c; --badbg:#fdf0f0;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px;margin:0 auto;padding:40px 22px 90px}
+  header{border-bottom:3px solid var(--ink);padding-bottom:20px;margin-bottom:32px}
+  .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  h1{font-size:clamp(28px,5vw,42px);line-height:1.05;margin:10px 0 8px;letter-spacing:-.02em;font-weight:800}
+  .lede{color:var(--muted);margin:0;max-width:60ch}
+  h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 4px;font-weight:800}
+  .step{border:1px solid var(--line);border-radius:14px;padding:22px;margin:0 0 20px;background:var(--paper)}
+  .step-head{display:flex;gap:14px;align-items:baseline;margin-bottom:16px}
+  .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;
+       display:grid;place-items:center;font-size:14px;font-weight:800}
+  .step-sub{color:var(--muted);font-size:14px;margin:2px 0 0}
+  label{display:block;font-size:13px;font-weight:700;margin:16px 0 6px}
+  .hint{font-weight:400;color:var(--muted);font-size:12px;margin-left:6px}
+  input[type=text],input[type=email],select,textarea{
+    width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;
+    font:inherit;font-size:15px;background:var(--paper);color:var(--ink);
+  }
+  textarea{min-height:120px;resize:vertical;line-height:1.5}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--ink);outline-offset:1px;border-color:transparent}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .chip{border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;
+        cursor:pointer;background:var(--paper);user-select:none}
+  .chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .btn{appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;
+       padding:12px 20px;border-radius:9px;font:inherit;font-weight:700;cursor:pointer}
+  .btn:hover{opacity:.87}
+  .btn.ghost{background:var(--paper);color:var(--ink)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+  .note{border-left:3px solid var(--line);padding:10px 0 10px 14px;color:var(--muted);font-size:14px;margin:14px 0}
+  .note.warn{border-color:#d9a400;background:var(--warnbg);color:var(--warn);
+             padding:12px 14px;border-radius:0 9px 9px 0}
+  .status{margin-top:14px;padding:12px 14px;border-radius:9px;font-size:14px;display:none}
+  .status.show{display:block}
+  .status.ok{background:var(--okbg);color:var(--ok)}
+  .status.bad{background:var(--badbg);color:var(--bad)}
+  .status.info{background:var(--soft);color:var(--ink)}
+  pre{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;
+      overflow:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:340px;margin:14px 0 0}
+  .spec{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);
+        border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+  .spec b{color:var(--ink);font-weight:700}
+  ul.tight{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
+  ul.tight li{margin:4px 0}
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
+         color:var(--muted);font-size:13px}
+  .req::after{content:"  required";font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+              color:var(--muted);font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Sublimated bottle printing</div>
+  <h1>Artwork brief</h1>
+  <p class="lede">Tell us what you want on your bottles. This takes about three minutes
+  and produces a brief our studio can put straight into production.</p>
+</header>
+
+<!-- 1 ------------------------------------------------------------------ -->
+<section class="step">
+  <div class="step-head">
+    <div class="num">1</div>
+    <div>
+      <h2>The bottle</h2>
+      <p class="step-sub">These decide the canvas, so they have to be exact.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <label class="req" for="brand">Brand or event name</label>
+      <input type="text" id="brand" placeholder="e.g. Taco Rico, or Maria's baby shower">
+    </div>
+    <div>
+      <label class="req" for="profile">Bottle size</label>
+      <select id="profile"></select>
+    </div>
+  </div>
+
+  <div class="spec" id="spec"></div>
+</section>
+
+<!-- 2 ------------------------------------------------------------------ -->
+<section class="step">
+  <div class="step-head">
+    <div class="num">2</div>
+    <div>
+      <h2>Your idea</h2>
+      <p class="step-sub">A sentence is enough. If you are not sure, step 3 helps you work it out.</p>
+    </div>
+  </div>
+
+  <label for="theme">Theme <span class="hint">what the artwork is about</span></label>
+  <textarea id="theme" placeholder="e.g. Baby shower, boy versus girl. Playful line drawings, bows and bow ties, nothing too sweet."></textarea>
+
+  <label>Style <span class="hint">pick one</span></label>
+  <div class="chips" id="technique">
+    <button type="button" class="chip" data-v="line_art" aria-pressed="true">Line drawings</button>
+    <button type="button" class="chip" data-v="halftone" aria-pressed="false">Photo, screened to black and white</button>
+    <button type="button" class="chip" data-v="type_led" aria-pressed="false">Mostly text and logo</button>
+  </div>
+
+  <label for="required">Text that must appear <span class="hint">one per line</span></label>
+  <textarea id="required" style="min-height:92px" placeholder="TACO RICO&#10;FRESH'N FROM SCRATCH&#10;tacoricotmc.com"></textarea>
+
+  <label>Must include <span class="hint">tap any that apply</span></label>
+  <div class="chips" id="components">
+    <button type="button" class="chip" data-v="bpa_free" aria-pressed="true">BPA Free mark</button>
+    <button type="button" class="chip" data-v="recycling" aria-pressed="true">Recycling mark</button>
+    <button type="button" class="chip" data-v="made_in_miami" aria-pressed="false">Made in Miami</button>
+    <button type="button" class="chip" data-v="nutrition_panel" aria-pressed="true">Nutrition panel</button>
+    <button type="button" class="chip" data-v="qr_code" aria-pressed="false">QR code</button>
+    <button type="button" class="chip" data-v="social_icons" aria-pressed="false">Social icons</button>
+  </div>
+
+  <div class="note warn">
+    <b>Printing is one ink, black, on a clear bottle.</b> There is no white ink —
+    anything white is simply the bottle showing through. No colour, no grey.
+  </div>
+</section>
+
+<!-- 3 ------------------------------------------------------------------ -->
+<section class="step">
+  <div class="step-head">
+    <div class="num">3</div>
+    <div>
+      <h2>Optional: think it through with an AI assistant</h2>
+      <p class="step-sub">Only useful if you are unsure what you want. Skip it if step 2 is already filled in.</p>
+    </div>
+  </div>
+
+  <p style="margin:0;color:var(--muted);font-size:14px">
+    This opens ChatGPT or Claude in a new tab with a briefing already written.
+    It will ask you a few questions, then hand you a block of text to paste back below.
+  </p>
+
+  <div class="note">
+    <b>It will not produce your artwork.</b> The assistant does not have our bottle
+    templates, print sizes or certification marks. It is there to help you describe
+    what you want. We make the actual print files.
+  </div>
+
+  <label>Open in</label>
+  <div class="chips" id="provider">
+    <button type="button" class="chip" data-v="chatgpt" aria-pressed="true">ChatGPT</button>
+    <button type="button" class="chip" data-v="claude" aria-pressed="false">Claude</button>
+  </div>
+
+  <div class="row">
+    <button class="btn" id="launch">Copy briefing and open</button>
+    <button class="btn ghost" id="copyonly">Copy briefing only</button>
+  </div>
+  <div class="status" id="launchStatus"></div>
+
+  <label for="paste" style="margin-top:22px">Paste what the assistant gives you</label>
+  <textarea id="paste" placeholder="Paste the block that starts with { here. Leave empty if you skipped this step."></textarea>
+  <div class="row">
+    <button class="btn ghost" id="apply">Read it and fill in the form</button>
+  </div>
+  <div class="status" id="pasteStatus"></div>
+</section>
+
+<!-- 4 ------------------------------------------------------------------ -->
+<section class="step">
+  <div class="step-head">
+    <div class="num">4</div>
+    <div>
+      <h2>Send it to us</h2>
+      <p class="step-sub">Download the file, or copy the text and email it.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <label class="req" for="cname">Your name</label>
+      <input type="text" id="cname" autocomplete="name">
+    </div>
+    <div>
+      <label class="req" for="cmail">Email</label>
+      <input type="email" id="cmail" autocomplete="email">
+    </div>
+  </div>
+
+  <label for="notes">Anything else <span class="hint">deadline, quantity, reference links</span></label>
+  <textarea id="notes" style="min-height:80px"></textarea>
+
+  <div class="row">
+    <button class="btn" id="download">Download brief</button>
+    <button class="btn ghost" id="copyjson">Copy brief</button>
+  </div>
+  <div class="status" id="outStatus"></div>
+  <pre id="out" hidden></pre>
+
+  <p style="margin:18px 0 0;font-size:14px;color:var(--muted)">
+    Logos and reference images: send those as separate attachments with your email.
+    Vector files (.ai, .svg, .eps) print sharpest.
+  </p>
+</section>
+
+<footer>
+  Artwork is produced at 1200 DPI, single ink black, on clear bottles.
+  Final files are supplied as PDF and PNG with a preview for approval before printing.
+</footer>
+</div>
+
+<script>
+"use strict";
+
+const PROFILES = [
+  {id:"fat_250ml",  name:"FAT 250 ml",  ml:250,  w:9000,  h:2400, mm:[190.5,50.8],  pr:165.1},
+  {id:"fat_500ml",  name:"FAT 500 ml",  ml:500,  w:9000,  h:6000, mm:[190.5,127],   pr:165.1},
+  {id:"fat_1l",     name:"FAT 1 L",     ml:1000, w:12000, h:6000, mm:[254,127],     pr:228.6},
+  {id:"long_500ml", name:"LONG 500 ml", ml:500,  w:9000,  h:4560, mm:[190.5,96.52], pr:165.1},
+  {id:"long_1l",    name:"LONG 1 L",    ml:1000, w:12000, h:6000, mm:[254,127],     pr:228.6}
+];
+
+const $ = id => document.getElementById(id);
+
+/* Download path differs by host. Inside the Claude artifact viewer a plain
+   <a download> silently does nothing, so the page must go through the
+   downloads capability. Served from an ordinary web server that capability
+   is absent and the anchor works. Resolve once, fall back cleanly. */
+let DOWNLOADS = null;
+if (window.claude && typeof window.claude.use === "function") {
+  window.claude.use("downloads").then(d => { DOWNLOADS = d; }).catch(() => {});
+}
+
+async function saveFile(filename, text){
+  if (DOWNLOADS && typeof DOWNLOADS.save === "function") {
+    try { await DOWNLOADS.save({ filename, data: text }); return "saved"; }
+    catch (e) { return "declined"; }
+  }
+  try {
+    const blob = new Blob([text], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    return "saved";
+  } catch (e) { return "failed"; }
+}
+
+/* ---------- profile select ---------- */
+const sel = $("profile");
+PROFILES.forEach(p => {
+  const o = document.createElement("option");
+  o.value = p.id; o.textContent = p.name;
+  sel.appendChild(o);
+});
+sel.value = "fat_500ml";
+
+function profile(){ return PROFILES.find(p => p.id === sel.value); }
+
+function renderSpec(){
+  const p = profile();
+  $("spec").innerHTML =
+    `<span>Label area <b>${p.mm[0]} &times; ${p.mm[1]} mm</b></span>` +
+    `<span>Safe print width <b>${p.pr} mm</b></span>` +
+    `<span>Canvas <b>${p.w} &times; ${p.h} px</b> at 1200 DPI</span>`;
+}
+sel.addEventListener("change", renderSpec);
+renderSpec();
+
+/* ---------- chip groups ---------- */
+function chipGroup(id, multi){
+  const root = $(id);
+  root.addEventListener("click", e => {
+    const b = e.target.closest(".chip");
+    if(!b) return;
+    if(multi){
+      b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
+    } else {
+      [...root.querySelectorAll(".chip")].forEach(c =>
+        c.setAttribute("aria-pressed", String(c === b)));
+    }
+  });
+  return {
+    get(){
+      const on = [...root.querySelectorAll('.chip[aria-pressed="true"]')].map(c => c.dataset.v);
+      return multi ? on : (on[0] || null);
+    },
+    set(vals){
+      const want = new Set([].concat(vals || []));
+      [...root.querySelectorAll(".chip")].forEach(c =>
+        c.setAttribute("aria-pressed", String(want.has(c.dataset.v))));
+    }
+  };
+}
+const technique = chipGroup("technique", false);
+const components = chipGroup("components", true);
+const provider  = chipGroup("provider", false);
+
+/* ---------- brief assembly ---------- */
+const lines = v => v.split("\n").map(s => s.trim()).filter(Boolean).slice(0, 40);
+
+function brief(){
+  const p = profile();
+  return {
+    schema: "bottle-brief/1",
+    created: new Date().toISOString().slice(0,10),
+    brand: $("brand").value.trim(),
+    profile_id: p.id,
+    bottle: { name: p.name, capacity_ml: p.ml,
+              label_mm: p.mm, safe_print_width_mm: p.pr,
+              canvas_px: [p.w, p.h], dpi: 1200 },
+    theme: $("theme").value.trim(),
+    technique: technique.get(),
+    required_text: lines($("required").value),
+    components: components.get(),
+    notes: $("notes").value.trim(),
+    contact: { name: $("cname").value.trim(), email: $("cmail").value.trim() },
+    print: { inks: 1, ink: "black", substrate: "clear bottle", white_ink: false }
+  };
+}
+
+function missing(b){
+  const m = [];
+  if(!b.brand) m.push("brand or event name");
+  if(!b.theme) m.push("theme");
+  if(!b.contact.name) m.push("your name");
+  if(!/^\S+@\S+\.\S+$/.test(b.contact.email)) m.push("a valid email");
+  return m;
+}
+
+function say(el, msg, kind){
+  const n = $(el);
+  n.textContent = msg;
+  n.className = "status show " + kind;
+}
+
+/* ---------- the briefing handed to the assistant ---------- */
+function briefingText(){
+  const p = profile();
+  const b = brief();
+  return [
+`I am ordering custom printed water bottles and I need help describing the artwork I want. Please interview me.`,
+``,
+`THE CONSTRAINTS (these are fixed, please respect them):`,
+`- Printing is ONE ink, black only, on a clear plastic bottle.`,
+`- There is no white ink. Anything white is the transparent bottle showing through.`,
+`- No colour and no grey. Photographs must be converted to a black-and-white dot screen.`,
+`- Bottle: ${p.name}, label area ${p.mm[0]} x ${p.mm[1]} mm, safe printable width ${p.pr} mm.`,
+`- The label must also carry a nutrition panel, certification marks and legal text,`,
+`  so roughly a quarter of the space is already spoken for.`,
+``,
+`WHAT I HAVE SO FAR:`,
+`- Brand or event: ${b.brand || "(not decided yet)"}`,
+`- Theme: ${b.theme || "(not decided yet)"}`,
+`- Style preference: ${b.technique}`,
+b.required_text.length ? `- Text that must appear: ${b.required_text.join(" | ")}` : `- Required text: (none yet)`,
+``,
+`HOW TO HELP ME:`,
+`1. Ask me up to five short questions, one at a time, to pin down the look,`,
+`   the mood, the motifs, and any text or logo that must appear.`,
+`2. Keep reminding me if I suggest something that cannot be printed in one black ink.`,
+`3. When we are done, output ONLY a JSON object in a code block, exactly in this shape,`,
+`   with no commentary after it:`,
+``,
+`{`,
+`  "schema": "bottle-brief/1",`,
+`  "brand": "...",`,
+`  "theme": "one or two sentences describing the artwork",`,
+`  "technique": "one of: line_art, halftone, type_led",`,
+`  "required_text": ["...", "..."],`,
+`  "motifs": ["...", "..."],`,
+`  "mood": ["...", "..."],`,
+`  "avoid": ["..."],`,
+`  "notes": "anything else the designer should know"`,
+`}`,
+``,
+`Important: do not try to draw or generate the artwork itself. You do not have the`,
+`print templates. I only need the written brief.`
+].join("\n");
+}
+
+/* ---------- launch ---------- */
+async function toClipboard(text){
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(text); return true;
+    }
+  }catch(e){ /* fall through */ }
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;opacity:0;top:0;left:0";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    const ok = document.execCommand("copy");
+    ta.remove(); return ok;
+  }catch(e){ return false; }
+}
+
+// Prefill parameters are undocumented on both services and have broken before,
+// so always copy to the clipboard first. If the prefill fails the user can paste.
+function providerUrl(which, text){
+  const enc = encodeURIComponent(text);
+  const url = which === "claude"
+    ? "https://claude.ai/new?q=" + enc
+    : "https://chatgpt.com/?q=" + enc;
+  return url.length > 7500 ? (which === "claude" ? "https://claude.ai/new" : "https://chatgpt.com/") : url;
+}
+
+$("copyonly").addEventListener("click", async () => {
+  const ok = await toClipboard(briefingText());
+  say("launchStatus", ok ? "Briefing copied. Paste it into any AI assistant."
+                         : "Could not copy automatically — select the text manually.",
+      ok ? "ok" : "bad");
+});
+
+$("launch").addEventListener("click", async () => {
+  const text = briefingText();
+  const which = provider.get();
+  const ok = await toClipboard(text);
+  const url = providerUrl(which, text);
+  const prefilled = url.includes("?q=");
+  window.open(url, "_blank", "noopener");
+  say("launchStatus",
+      (ok ? "Briefing copied to your clipboard. " : "") +
+      (prefilled
+        ? "A new tab is opening with it filled in. If the box is empty, just paste."
+        : "The briefing was too long for a link, so paste it into the new tab."),
+      "info");
+});
+
+/* ---------- read back what the assistant produced ---------- */
+// This is DATA, not instructions. It is parsed and used to fill form fields only;
+// nothing in it is ever executed or forwarded to a model as a command.
+function extractJson(raw){
+  let t = raw.trim();
+  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if(fence) t = fence[1].trim();
+  const a = t.indexOf("{"), b = t.lastIndexOf("}");
+  if(a === -1 || b <= a) throw new Error("no JSON object found");
+  const v = JSON.parse(t.slice(a, b + 1));
+  if(typeof v !== "object" || Array.isArray(v) || v === null) throw new Error("not an object");
+  return v;
+}
+
+const str = v => typeof v === "string" ? v.trim() : "";
+const arr = v => Array.isArray(v) ? v.filter(x => typeof x === "string").map(s => s.trim()).filter(Boolean) : [];
+
+$("apply").addEventListener("click", () => {
+  const raw = $("paste").value;
+  if(!raw.trim()){ say("pasteStatus", "Nothing to read — paste the assistant's reply first.", "bad"); return; }
+  let v;
+  try{ v = extractJson(raw); }
+  catch(e){
+    say("pasteStatus",
+        "Could not read that. Copy the whole block including the { and } braces. (" + e.message + ")",
+        "bad");
+    return;
+  }
+  const filled = [];
+  if(str(v.brand)){ $("brand").value = str(v.brand); filled.push("brand"); }
+  if(str(v.theme)){
+    let t = str(v.theme);
+    const extra = [["Motifs", arr(v.motifs)], ["Mood", arr(v.mood)], ["Avoid", arr(v.avoid)]]
+      .filter(([,a]) => a.length).map(([k,a]) => k + ": " + a.join(", "));
+    if(extra.length) t += "\n\n" + extra.join("\n");
+    $("theme").value = t; filled.push("theme");
+  }
+  if(["line_art","halftone","type_led"].includes(str(v.technique))){
+    technique.set(str(v.technique)); filled.push("style");
+  }
+  if(arr(v.required_text).length){
+    $("required").value = arr(v.required_text).join("\n"); filled.push("required text");
+  }
+  if(str(v.notes)){
+    $("notes").value = ($("notes").value ? $("notes").value + "\n" : "") + str(v.notes);
+    filled.push("notes");
+  }
+  say("pasteStatus",
+      filled.length ? "Filled in: " + filled.join(", ") + ". Check it over and edit anything that is off."
+                    : "That was valid JSON but had none of the fields we need.",
+      filled.length ? "ok" : "bad");
+  if(filled.length) $("brand").scrollIntoView({behavior:"smooth", block:"center"});
+});
+
+/* ---------- output ---------- */
+function ready(){
+  const b = brief();
+  const m = missing(b);
+  if(m.length){
+    say("outStatus", "Still needed: " + m.join(", ") + ".", "bad");
+    return null;
+  }
+  return b;
+}
+
+$("download").addEventListener("click", async () => {
+  const b = ready(); if(!b) return;
+  const text = JSON.stringify(b, null, 2);
+  const slug = (b.brand.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "brief");
+  $("out").hidden = false; $("out").textContent = text;
+  const result = await saveFile(`bottle-brief-${slug}-${b.profile_id}.json`, text);
+  if (result === "saved") {
+    say("outStatus", "Downloaded. Email it to us with your logo and any reference images.", "ok");
+  } else if (result === "declined") {
+    say("outStatus", "Download cancelled. The brief is shown below — copy it instead.", "info");
+  } else {
+    say("outStatus", "Could not save a file here. Copy the brief below instead.", "bad");
+  }
+});
+
+$("copyjson").addEventListener("click", async () => {
+  const b = ready(); if(!b) return;
+  const text = JSON.stringify(b, null, 2);
+  const ok = await toClipboard(text);
+  $("out").hidden = false; $("out").textContent = text;
+  say("outStatus", ok ? "Copied. Paste it into an email to us."
+                      : "Could not copy — select the text below instead.",
+      ok ? "ok" : "bad");
+});
+</script>
+</body>
+</html>
