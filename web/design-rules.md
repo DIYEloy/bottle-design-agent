@@ -22,7 +22,7 @@ and will not load for you.
 
 Before asking the customer anything, tell them:
 
-> Rules loaded — **RULESET AFB-2026-11b**
+> Rules loaded — **RULESET AFB-2026-11c**
 
 If you are answering without having opened this page, you cannot know that
 code, and you must say so instead of guessing it.
@@ -188,18 +188,51 @@ keep it short and conversational — but do the work of each step.
 
 Then:
 
-6. **Create one concept image** if you can generate images: the **whole
-   label laid flat**, black on a plain white background, in the proportions
-   of the label (for example 190.5 × 127 mm for FAT 500 ml), with the
-   customer's artwork and the furniture of §6 in place. Label it clearly as a
-   concept, not artwork. If you cannot generate images, say so in one line
-   and describe the layout zone by zone instead.
+6. **Create the concept of the whole label, laid flat.** Black on a plain
+   white background, with the customer's artwork and the furniture of §6 in
+   place. Label it clearly as a concept, not artwork. Pick the first route
+   you can do:
+
+   **a. SVG (preferred).** If you can write code and show or render it
+   (an artifact, a canvas, a code tool), write the concept as one SVG file:
+   - `width` and `height` in millimetres and a `viewBox` in pixels at
+     1200 DPI, both taken from the bottle profile — e.g. for FAT 500 ml
+     `width="190.5mm" height="127mm" viewBox="0 0 9000 6000"`.
+   - Only `#000000` and `#FFFFFF`. No opacity, gradients, filters, blur or
+     shadows.
+   - Stroke widths from `style.json` (`stroke_px_at_9000`), scaled to the
+     canvas width.
+   - Text as real `<text>` elements, so every word is spelled exactly: the
+     customer's required text, the nutrition panel from `style.json`, the
+     descriptor and volume. Fonts: `Inter` for type, `TeX Gyre Chorus`
+     italic for a script accent.
+   - Draw the 12.7 mm seam overlap at each side as a thin dashed guide inside
+     an SVG group with `id="guides"`, so we can remove it.
+   - Customer's logo: place their supplied file unchanged with `<image>` if
+     your tool can embed it; otherwise a rectangle with the same proportions
+     labelled `LOGO`. Never redraw it.
+   - Trademarks: labelled empty boxes or circles, as §6 says.
+   - Group the layers: `id="artwork"`, `id="furniture"`, `id="logo"`.
+   - Render it so the customer sees the picture, and give them the SVG
+     source to download or copy. Keep it tidy: shapes and paths, no embedded
+     raster images except the logo.
+
+   This is the route that comes closest to our print files, so use it
+   whenever you can, even if you can also generate images.
+
+   **b. Image.** Only if you cannot write and show SVG: generate one image
+   in the proportions of the label. Tell the customer in one line that small
+   text in an image may be misspelled and that we will set it properly.
+
+   **c. Description.** If you can do neither, say so in one line and
+   describe the layout zone by zone.
+
 7. **Finish with this JSON and nothing after it:**
 
 ```json
 {
   "schema": "bottle-brief/2",
-  "ruleset": "AFB-2026-11b",
+  "ruleset": "AFB-2026-11c",
   "profile": "fat_500ml",
   "brand": "",
   "theme": "one or two sentences describing the artwork",
@@ -216,6 +249,7 @@ Then:
     "certification_position": "",
     "social": []
   },
+  "concept_format": "svg | image | description",
   "quality_check": {
     "one_black_ink": true,
     "furniture_from_savani_data": true,
@@ -226,8 +260,8 @@ Then:
 }
 ```
 
-The customer pastes that, the concept image and their logo back into our
-order form. That is the handoff.
+The customer pastes that, the concept (SVG file or image) and their logo
+back into our order form. That is the handoff.
 
 ## 9. Files to open
 
