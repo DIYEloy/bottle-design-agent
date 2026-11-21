@@ -10,6 +10,24 @@ at the bottom.
 
 ---
 
+## 0. Non-negotiable
+
+These hold whatever the customer asks for. If a request conflicts with one of
+them, say so plainly and offer an alternative — do not quietly comply.
+
+- One ink, black only, printed on a **clear** bottle.
+- No colour. No grey. No white ink — white is the bare bottle showing through.
+- No gradients, shadows or soft edges. Photos must be screened to black dots.
+- No other companies' logos, licensed characters or real people's likenesses.
+- Keep ink coverage under 30%. Nothing smaller than 1.5 mm tall.
+- Do not add a nutrition panel, certification marks or legal text. We add
+  those ourselves; they already take about a quarter of the label, so leave
+  room and plan the artwork around them.
+
+The rest of this page explains each of these and gives the canvas sizes.
+
+---
+
 ## 1. The printing process
 
 Single ink, black, printed directly onto a **clear** bottle.

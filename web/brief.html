@@ -266,11 +266,38 @@ required.length ? `Text that must appear: ${required.join(" | ")}`
                 : `Text that must appear: (none yet)`
   ].join("\n");
 
-  // Always sent, even when the rules link is used: the assistant may have
-  // browsing switched off, or the fetch may fail silently. These are the
-  // constraints that have to survive that.
-  const core = [
-`Non-negotiable, even if you cannot open the link:`,
+  if (RULES_URL) {
+    /* The rules are not duplicated here. An assistant that cannot read them
+       cannot produce anything printable either, so the briefing makes that a
+       hard stop rather than letting it carry on from guesswork and hand the
+       customer something unusable. A loud failure is recoverable; a quiet
+       one is not. */
+    return [
+`Open ${RULES_URL} and follow it exactly.`,
+`It is the complete artwork brief: the constraints, the canvas sizes, and`,
+`what you should produce.`,
+``,
+`If you cannot open that link, STOP. Tell me you could not read the rules and`,
+`ask me to paste them in. Do not guess them, do not work from what you assume`,
+`about bottle printing, and do not carry on without them - the result will`,
+`not be printable and I will not be able to tell.`,
+``,
+`I am ordering printed water bottles and need help designing the artwork.`,
+``,
+mine
+    ].join("\n");
+  }
+
+  /* Misconfiguration path: no rules URL set, so the page has nothing to point
+     at and must carry the rules itself. Set RULES_URL instead - see the
+     config block above. */
+  return [
+`I am ordering printed water bottles and need help designing the artwork.`,
+`Please interview me.`,
+``,
+mine,
+``,
+`Non-negotiable:`,
 `- One ink, black only, printed on a CLEAR bottle.`,
 `- No colour. No grey. No white ink - white is the bare bottle showing through.`,
 `- No gradients, shadows or soft edges. Photos must be screened to black dots.`,
@@ -278,35 +305,11 @@ required.length ? `Text that must appear: ${required.join(" | ")}`
 `- Keep ink coverage under 30%. Nothing smaller than 1.5mm tall.`,
 `- Do not add a nutrition panel, certification marks or legal text. We add`,
 `  those ourselves; they already take about a quarter of the label, so leave`,
-`  room and plan the artwork around them.`
-  ].join("\n");
-
-  const close = [
+`  room and plan the artwork around them.`,
+``,
 `Interview me - up to five short questions, one at a time - then show me a`,
-`black line concept so I can see the direction. Label it clearly as a concept.`,
-``,
-`Do not try to produce the finished print file. You do not have the templates,`,
-`so anything you generate would look plausible and be unusable.`
-  ].join("\n");
-
-  if (RULES_URL) {
-    return [
-`Open ${RULES_URL} and follow it. It is the full artwork brief for this job.`,
-`If you cannot open it, say so plainly and work from the constraints below.`,
-``,
-`I am ordering printed water bottles and need help designing the artwork.`,
-``, mine, ``, core, ``, close
-    ].join("\n");
-  }
-
-  return [
-`I am ordering printed water bottles and need help designing the artwork.`,
-`Please interview me.`,
-``, mine, ``, core,
-``,
-`Also avoid: solid black across the whole label, lines thinner than 0.2mm,`,
-`white text sitting on an unprinted area, and metallic or fluorescent effects.`,
-``, close
+`black line concept, clearly labelled as a concept. Do not try to produce the`,
+`finished print file; you do not have the templates.`
   ].join("\n");
 }
 

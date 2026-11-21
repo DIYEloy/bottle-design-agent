@@ -40,10 +40,26 @@ repo fail for them even though they work for you while signed in. The
 simplest arrangement is to put `design-rules.md` next to `brief.html` on
 whatever static host serves the page.
 
-A hard core of constraints is always sent inline regardless, because the
-assistant may have browsing disabled or the fetch may fail silently. Those
-are the ones that must survive that: single black ink, no colour, no grey,
-no white ink, no third-party logos, coverage under 30%.
+### The rules are not duplicated in the briefing
+
+Earlier versions carried a short constraint core inline as a safety net. They
+no longer do, deliberately. An assistant that cannot read the rules cannot
+produce anything printable either — it has no canvas sizes, no seam overlap,
+no furniture layout — so a partial fallback buys nothing and costs a lot: the
+customer gets a confident, plausible, unusable concept and no signal that
+anything went wrong.
+
+Instead the briefing makes it a hard stop. It instructs the assistant that if
+the link cannot be opened it must say so and ask for the rules to be pasted,
+rather than guessing or working from general knowledge of bottle printing.
+A loud failure is recoverable; a quiet one reaches the customer.
+
+This makes `RULES_URL` load-bearing. If it is wrong, every customer hits the
+stop message. That is the intended behaviour — it is visible and fixable,
+unlike silently degraded output.
+
+The only inline-rules path left is the misconfiguration case where
+`RULES_URL` is empty, so the page has nothing to point at.
 
 ## Why the AI step works the way it does
 
