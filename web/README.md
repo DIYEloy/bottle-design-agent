@@ -5,13 +5,22 @@ dependencies — host it anywhere static, or open it from disk.
 
 ## What it does
 
-Collects a structured artwork brief from a client and emits it as JSON
-conforming to `bottle-brief/1`, which maps onto the API's `POST /jobs` body.
+One job: build a briefing from a few inputs and hand it to the customer's own
+AI assistant. Three steps — bottle, idea, launch. Nothing is submitted and
+nothing is stored; the page produces text and a link.
 
-The page has four steps. Steps 1, 2 and 4 are an ordinary form. Step 3 is
-optional: it hands the client a pre-written briefing and opens ChatGPT or
-Claude so they can think the idea through, then reads the assistant's reply
-back into the form.
+The customer takes the concept their assistant produces to a separate upload
+page (not built yet), which is where mockups and contact happen.
+
+### What it deliberately does not do
+
+- **No "must include" checkboxes.** Which certification marks, nutrition panel
+  and legal text go on a bottle is not a customer choice — they are always
+  added, and the approved versions live with us. Asking invites a customer to
+  deselect something we are legally required to print. `design-rules.md` §5
+  states them instead, and tells the assistant not to draw them.
+- **No contact capture or brief download.** That belongs on the upload page,
+  once there is something to attach it to.
 
 ## Configuring the rules link
 
@@ -66,46 +75,20 @@ write the obvious version of this handler. A native anchor navigation is
 never blocked, so the `href` is kept current as the form changes and the
 clipboard write runs alongside the navigation instead of before it.
 
-## Pasted content is data, not instructions
+## When the upload page is built: treat input as data
 
-`extractJson` parses the client's paste and uses it to populate form fields.
-Nothing in it is executed, and nothing is forwarded to a model as a command.
-
-This matters: a brief is attacker-controlled text arriving from outside. If a
-later processing step feeds briefs into a model prompt, treat the brief as a
-quoted document and never as instructions — prompt injection through exactly
-this channel is a known, demonstrated attack against chat deep links.
-
-## Download behaviour
-
-Inside the Claude artifact viewer a plain `<a download>` silently does
-nothing; the page must call the `downloads` capability. Served from an
-ordinary web server that capability is absent and the anchor works. `saveFile`
-resolves the capability once and falls back, so the same file works in both
-places. Copy-to-clipboard works everywhere and is the reliable path.
-
-## Schema
-
-```json
-{
-  "schema": "bottle-brief/1",
-  "brand": "...", "profile_id": "fat_500ml",
-  "bottle": {"name", "capacity_ml", "label_mm", "safe_print_width_mm", "canvas_px", "dpi"},
-  "theme": "...", "technique": "line_art|halftone|type_led",
-  "required_text": [], "components": [], "notes": "...",
-  "contact": {"name", "email"},
-  "print": {"inks": 1, "ink": "black", "substrate": "clear bottle", "white_ink": false}
-}
-```
-
-`brand`, `theme`, `contact.name` and a valid `contact.email` are required;
-the page will not emit a brief without them.
+Whatever a customer brings back — a pasted brief, a filename, image metadata —
+is attacker-controlled text arriving from outside. If any later step feeds it
+into a model prompt, quote it as a document and never treat it as
+instructions. Prompt injection through exactly this channel is a known,
+demonstrated attack against chat deep links.
 
 ## Not done yet
 
-- No file upload. Logos and references are requested by email. Accepting
-  uploads needs a backend and a virus/content policy.
-- No submission endpoint. The page produces a file; wiring it to `POST /jobs`
-  needs the API to have auth and CORS first.
-- `components` are slugs chosen by checkbox; they are not validated against
-  the extracted component library until the job reaches the API.
+- **The upload page.** Where the customer brings back the concept image, sees
+  a bottle mockup, and gets in touch. This page's step 3 already tells them
+  that is coming.
+- **No file upload here.** Accepting uploads needs a backend and a content
+  policy.
+- **No submission endpoint.** Wiring anything to `POST /jobs` needs auth and
+  CORS on the API first.

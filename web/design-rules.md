@@ -69,17 +69,28 @@ Nothing important goes there.
 The 250 ml label is only about 50 mm tall. Designs for it must be a single
 horizontal strip — a tall composition will not fit.
 
-## 5. Space that is already committed
+## 5. Elements we add ourselves
 
-Roughly a quarter of every label is spoken for before the artwork starts.
-These are not optional and cannot be shrunk away:
+Every bottle carries these. **We add them. Do not design them, do not draw
+them, and do not ask the customer whether they want them** — the answer is
+always yes, and the versions we hold are the approved ones.
 
-- **Nutrition Facts panel** — about 31 mm wide
+- **Nutrition Facts panel** — about 31 mm wide, full height of the label
 - **Distributor and bottler block** — rotated 90°, beside the panel
 - **Certification marks** — BPA Free, recycling, origin
 - **Product descriptor** — e.g. PURIFIED WATER, and the volume
+- **Social icons and website**, where the customer has them
 
-Plan the artwork around them. A design that needs the whole label will not work.
+Together these take roughly a quarter of the label, usually one end of it.
+
+What this means for the artwork: plan it to occupy about three quarters of
+the label, and treat one end as already full. A design that needs the whole
+label will not work. A customer asking to remove the nutrition panel or the
+certification marks is asking for something we cannot legally print — say so.
+
+If the customer wants a QR code, their own logo, or their own social handles,
+those *are* worth capturing in the brief, because we need the content from
+them.
 
 ## 6. What works well
 

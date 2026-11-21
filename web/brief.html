@@ -7,7 +7,7 @@
 <style>
   :root{
     --ink:#0a0a0a; --paper:#ffffff; --muted:#6b6b6b; --line:#e4e4e4;
-    --soft:#f6f6f5; --accent:#0a0a0a; --warn:#8a5a00; --warnbg:#fff8e8;
+    --soft:#f6f6f5; --warn:#8a5a00; --warnbg:#fff8e8;
     --ok:#1d6b3f; --okbg:#eef7f1; --bad:#9b1c1c; --badbg:#fdf0f0;
   }
   *{box-sizing:border-box}
@@ -16,37 +16,36 @@
     font:16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:860px;margin:0 auto;padding:40px 22px 90px}
+  .wrap{max-width:820px;margin:0 auto;padding:40px 22px 90px}
   header{border-bottom:3px solid var(--ink);padding-bottom:20px;margin-bottom:32px}
   .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);font-weight:700}
   h1{font-size:clamp(28px,5vw,42px);line-height:1.05;margin:10px 0 8px;letter-spacing:-.02em;font-weight:800}
   .lede{color:var(--muted);margin:0;max-width:60ch}
   h2{font-size:13px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 4px;font-weight:800}
-  .step{border:1px solid var(--line);border-radius:14px;padding:22px;margin:0 0 20px;background:var(--paper)}
+  .step{border:1px solid var(--line);border-radius:14px;padding:22px;margin:0 0 20px}
   .step-head{display:flex;gap:14px;align-items:baseline;margin-bottom:16px}
   .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;
        display:grid;place-items:center;font-size:14px;font-weight:800}
   .step-sub{color:var(--muted);font-size:14px;margin:2px 0 0}
   label{display:block;font-size:13px;font-weight:700;margin:16px 0 6px}
   .hint{font-weight:400;color:var(--muted);font-size:12px;margin-left:6px}
-  input[type=text],input[type=email],select,textarea{
+  input[type=text],select,textarea{
     width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:9px;
     font:inherit;font-size:15px;background:var(--paper);color:var(--ink);
   }
-  textarea{min-height:120px;resize:vertical;line-height:1.5}
+  textarea{min-height:118px;resize:vertical;line-height:1.5}
   input:focus,select:focus,textarea:focus{outline:2px solid var(--ink);outline-offset:1px;border-color:transparent}
   .grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
   @media(max-width:640px){.grid{grid-template-columns:1fr}}
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
   .chip{border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;
-        cursor:pointer;background:var(--paper);user-select:none}
+        cursor:pointer;background:var(--paper);user-select:none;font:inherit;font-size:13px}
   .chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
   .btn{appearance:none;border:1px solid var(--ink);background:var(--ink);color:#fff;
        padding:12px 20px;border-radius:9px;font:inherit;font-weight:700;cursor:pointer;
        display:inline-block;text-decoration:none;line-height:1.2;text-align:center}
   .btn:hover{opacity:.87}
   .btn.ghost{background:var(--paper);color:var(--ink)}
-  .btn:disabled{opacity:.4;cursor:not-allowed}
   .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
   .note{border-left:3px solid var(--line);padding:10px 0 10px 14px;color:var(--muted);font-size:14px;margin:14px 0}
   .note.warn{border-color:#d9a400;background:var(--warnbg);color:var(--warn);
@@ -56,13 +55,17 @@
   .status.ok{background:var(--okbg);color:var(--ok)}
   .status.bad{background:var(--badbg);color:var(--bad)}
   .status.info{background:var(--soft);color:var(--ink)}
-  pre{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;
-      overflow:auto;font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:340px;margin:14px 0 0}
   .spec{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);
         border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
   .spec b{color:var(--ink);font-weight:700}
-  ul.tight{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
-  ul.tight li{margin:4px 0}
+  details{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+  summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--muted)}
+  summary:hover{color:var(--ink)}
+  pre{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:14px;
+      overflow:auto;font:12.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
+      max-height:300px;margin:12px 0 0;white-space:pre-wrap}
+  ol.next{margin:8px 0 0;padding-left:20px;color:var(--muted);font-size:14px}
+  ol.next li{margin:6px 0}
   footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
          color:var(--muted);font-size:13px}
   .req::after{content:"  required";font-size:10px;letter-spacing:.12em;text-transform:uppercase;
@@ -75,8 +78,8 @@
 <header>
   <div class="eyebrow">Sublimated bottle printing</div>
   <h1>Artwork brief</h1>
-  <p class="lede">Tell us what you want on your bottles. This takes about three minutes
-  and produces a brief our studio can put straight into production.</p>
+  <p class="lede">Tell us the basics, then talk your idea through with an AI assistant.
+  Takes about two minutes.</p>
 </header>
 
 <!-- 1 ------------------------------------------------------------------ -->
@@ -85,7 +88,7 @@
     <div class="num">1</div>
     <div>
       <h2>The bottle</h2>
-      <p class="step-sub">These decide the canvas, so they have to be exact.</p>
+      <p class="step-sub">This decides the canvas, so it has to be exact.</p>
     </div>
   </div>
 
@@ -109,7 +112,7 @@
     <div class="num">2</div>
     <div>
       <h2>Your idea</h2>
-      <p class="step-sub">A sentence is enough. If you are not sure, step 3 helps you work it out.</p>
+      <p class="step-sub">A sentence is enough. The assistant will ask you the rest.</p>
     </div>
   </div>
 
@@ -123,22 +126,18 @@
     <button type="button" class="chip" data-v="type_led" aria-pressed="false">Mostly text and logo</button>
   </div>
 
-  <label for="required">Text that must appear <span class="hint">one per line</span></label>
+  <label for="required">Text that must appear <span class="hint">one per line, optional</span></label>
   <textarea id="required" style="min-height:92px" placeholder="TACO RICO&#10;FRESH'N FROM SCRATCH&#10;tacoricotmc.com"></textarea>
-
-  <label>Must include <span class="hint">tap any that apply</span></label>
-  <div class="chips" id="components">
-    <button type="button" class="chip" data-v="bpa_free" aria-pressed="true">BPA Free mark</button>
-    <button type="button" class="chip" data-v="recycling" aria-pressed="true">Recycling mark</button>
-    <button type="button" class="chip" data-v="made_in_miami" aria-pressed="false">Made in Miami</button>
-    <button type="button" class="chip" data-v="nutrition_panel" aria-pressed="true">Nutrition panel</button>
-    <button type="button" class="chip" data-v="qr_code" aria-pressed="false">QR code</button>
-    <button type="button" class="chip" data-v="social_icons" aria-pressed="false">Social icons</button>
-  </div>
 
   <div class="note warn">
     <b>Printing is one ink, black, on a clear bottle.</b> There is no white ink —
     anything white is simply the bottle showing through. No colour, no grey.
+  </div>
+
+  <div class="note">
+    The nutrition panel, certification marks and legal text are added by us on
+    every bottle. You do not need to ask for them, and they are already
+    accounted for in the space.
   </div>
 </section>
 
@@ -147,20 +146,9 @@
   <div class="step-head">
     <div class="num">3</div>
     <div>
-      <h2>Optional: think it through with an AI assistant</h2>
-      <p class="step-sub">Only useful if you are unsure what you want. Skip it if step 2 is already filled in.</p>
+      <h2>Talk it through</h2>
+      <p class="step-sub">Opens ChatGPT or Claude with a briefing already written.</p>
     </div>
-  </div>
-
-  <p style="margin:0;color:var(--muted);font-size:14px">
-    This opens ChatGPT or Claude in a new tab with a briefing already written.
-    It will ask you a few questions, then hand you a block of text to paste back below.
-  </p>
-
-  <div class="note">
-    <b>It will not produce your artwork.</b> The assistant does not have our bottle
-    templates, print sizes or certification marks. It is there to help you describe
-    what you want. We make the actual print files.
   </div>
 
   <label>Open in</label>
@@ -175,49 +163,18 @@
   </div>
   <div class="status" id="launchStatus"></div>
 
-  <label for="paste" style="margin-top:22px">Paste what the assistant gives you</label>
-  <textarea id="paste" placeholder="Paste the block that starts with { here. Leave empty if you skipped this step."></textarea>
-  <div class="row">
-    <button class="btn ghost" id="apply">Read it and fill in the form</button>
-  </div>
-  <div class="status" id="pasteStatus"></div>
-</section>
+  <details>
+    <summary>See what gets sent</summary>
+    <pre id="preview"></pre>
+  </details>
 
-<!-- 4 ------------------------------------------------------------------ -->
-<section class="step">
-  <div class="step-head">
-    <div class="num">4</div>
-    <div>
-      <h2>Send it to us</h2>
-      <p class="step-sub">Download the file, or copy the text and email it.</p>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div>
-      <label class="req" for="cname">Your name</label>
-      <input type="text" id="cname" autocomplete="name">
-    </div>
-    <div>
-      <label class="req" for="cmail">Email</label>
-      <input type="email" id="cmail" autocomplete="email">
-    </div>
-  </div>
-
-  <label for="notes">Anything else <span class="hint">deadline, quantity, reference links</span></label>
-  <textarea id="notes" style="min-height:80px"></textarea>
-
-  <div class="row">
-    <button class="btn" id="download">Download brief</button>
-    <button class="btn ghost" id="copyjson">Copy brief</button>
-  </div>
-  <div class="status" id="outStatus"></div>
-  <pre id="out" hidden></pre>
-
-  <p style="margin:18px 0 0;font-size:14px;color:var(--muted)">
-    Logos and reference images: send those as separate attachments with your email.
-    Vector files (.ai, .svg, .eps) print sharpest.
-  </p>
+  <h2 style="margin-top:26px">What happens next</h2>
+  <ol class="next">
+    <li>The assistant asks you a few questions and sketches a concept.</li>
+    <li>When you are happy with it, save the image it gives you.</li>
+    <li>Come back and upload it, and we will turn it into print-ready artwork
+        and show you a mockup on the bottle.</li>
+  </ol>
 </section>
 
 <footer>
@@ -230,15 +187,18 @@
 "use strict";
 
 /* ------------------------------------------------------------------ CONFIG
-   Host design-rules.md at a publicly reachable URL and put it here. The
-   assistant is asked to open it, which keeps the pasted prompt short and
-   keeps the rules under your control rather than in text a customer can
-   trim. Leave it empty and the page falls back to a longer inline prompt.
+   Where the full artwork rules live. The assistant is told to open this
+   first, which keeps the pasted briefing short and keeps the rules under
+   your control instead of sitting in text a customer can edit out.
 
-   The URL must be public. A private GitHub repo is not readable by a
-   customer's AI assistant, and raw.githubusercontent.com links to private
-   repos will fail for them even though they work for you.                 */
-const RULES_URL = "";
+   THIS URL MUST BE PUBLICLY READABLE. A private GitHub repository will not
+   work: the link succeeds for you because your browser is signed in, and
+   returns 404 for every customer and for their AI assistant. Either make
+   the repository public, or host design-rules.md next to this page.
+
+   Leave it empty and the page falls back to sending the rules inline.      */
+const RULES_URL =
+  "https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/web/design-rules.md";
 /* --------------------------------------------------------------------- */
 
 const PROFILES = [
@@ -251,31 +211,6 @@ const PROFILES = [
 
 const $ = id => document.getElementById(id);
 
-/* Download path differs by host. Inside the Claude artifact viewer a plain
-   <a download> silently does nothing, so the page must go through the
-   downloads capability. Served from an ordinary web server that capability
-   is absent and the anchor works. Resolve once, fall back cleanly. */
-let DOWNLOADS = null;
-if (window.claude && typeof window.claude.use === "function") {
-  window.claude.use("downloads").then(d => { DOWNLOADS = d; }).catch(() => {});
-}
-
-async function saveFile(filename, text){
-  if (DOWNLOADS && typeof DOWNLOADS.save === "function") {
-    try { await DOWNLOADS.save({ filename, data: text }); return "saved"; }
-    catch (e) { return "declined"; }
-  }
-  try {
-    const blob = new Blob([text], {type:"application/json"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a); a.click();
-    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-    return "saved";
-  } catch (e) { return "failed"; }
-}
-
 /* ---------- profile select ---------- */
 const sel = $("profile");
 PROFILES.forEach(p => {
@@ -285,7 +220,7 @@ PROFILES.forEach(p => {
 });
 sel.value = "fat_500ml";
 
-function profile(){ return PROFILES.find(p => p.id === sel.value); }
+const profile = () => PROFILES.find(p => p.id === sel.value);
 
 function renderSpec(){
   const p = profile();
@@ -294,84 +229,46 @@ function renderSpec(){
     `<span>Safe print width <b>${p.pr} mm</b></span>` +
     `<span>Canvas <b>${p.w} &times; ${p.h} px</b> at 1200 DPI</span>`;
 }
-sel.addEventListener("change", renderSpec);
 renderSpec();
 
 /* ---------- chip groups ---------- */
-function chipGroup(id, multi){
+function chipGroup(id){
   const root = $(id);
   root.addEventListener("click", e => {
     const b = e.target.closest(".chip");
     if(!b) return;
-    if(multi){
-      b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
-    } else {
-      [...root.querySelectorAll(".chip")].forEach(c =>
-        c.setAttribute("aria-pressed", String(c === b)));
-    }
+    [...root.querySelectorAll(".chip")].forEach(c =>
+      c.setAttribute("aria-pressed", String(c === b)));
   });
-  return {
-    get(){
-      const on = [...root.querySelectorAll('.chip[aria-pressed="true"]')].map(c => c.dataset.v);
-      return multi ? on : (on[0] || null);
-    },
-    set(vals){
-      const want = new Set([].concat(vals || []));
-      [...root.querySelectorAll(".chip")].forEach(c =>
-        c.setAttribute("aria-pressed", String(want.has(c.dataset.v))));
-    }
+  return () => {
+    const on = root.querySelector('.chip[aria-pressed="true"]');
+    return on ? on.dataset.v : null;
   };
 }
-const technique = chipGroup("technique", false);
-const components = chipGroup("components", true);
-const provider  = chipGroup("provider", false);
+const technique = chipGroup("technique");
+const provider  = chipGroup("provider");
 
-/* ---------- brief assembly ---------- */
+/* ---------- the briefing ---------- */
 const lines = v => v.split("\n").map(s => s.trim()).filter(Boolean).slice(0, 40);
 
-function brief(){
-  const p = profile();
-  return {
-    schema: "bottle-brief/1",
-    created: new Date().toISOString().slice(0,10),
-    brand: $("brand").value.trim(),
-    profile_id: p.id,
-    bottle: { name: p.name, capacity_ml: p.ml,
-              label_mm: p.mm, safe_print_width_mm: p.pr,
-              canvas_px: [p.w, p.h], dpi: 1200 },
-    theme: $("theme").value.trim(),
-    technique: technique.get(),
-    required_text: lines($("required").value),
-    components: components.get(),
-    notes: $("notes").value.trim(),
-    contact: { name: $("cname").value.trim(), email: $("cmail").value.trim() },
-    print: { inks: 1, ink: "black", substrate: "clear bottle", white_ink: false }
-  };
-}
-
-function missing(b){
-  const m = [];
-  if(!b.brand) m.push("brand or event name");
-  if(!b.theme) m.push("theme");
-  if(!b.contact.name) m.push("your name");
-  if(!/^\S+@\S+\.\S+$/.test(b.contact.email)) m.push("a valid email");
-  return m;
-}
-
-function say(el, msg, kind){
-  const n = $(el);
-  n.textContent = msg;
-  n.className = "status show " + kind;
-}
-
-/* ---------- the briefing handed to the assistant ---------- */
 function briefingText(){
   const p = profile();
-  const b = brief();
+  const brand = $("brand").value.trim();
+  const theme = $("theme").value.trim();
+  const required = lines($("required").value);
 
-  // Carried inline even when the rules link is used, because the assistant
-  // may have browsing disabled or the fetch may fail silently. These are the
-  // constraints that must survive that.
+  const mine = [
+`Bottle: ${p.name} - label ${p.mm[0]} x ${p.mm[1]} mm, safe print width ${p.pr} mm.`,
+`Brand or event: ${brand || "(not decided yet)"}`,
+`Theme so far: ${theme || "(not decided yet)"}`,
+`Style preference: ${technique()}`,
+required.length ? `Text that must appear: ${required.join(" | ")}`
+                : `Text that must appear: (none yet)`
+  ].join("\n");
+
+  // Always sent, even when the rules link is used: the assistant may have
+  // browsing switched off, or the fetch may fail silently. These are the
+  // constraints that have to survive that.
   const core = [
 `Non-negotiable, even if you cannot open the link:`,
 `- One ink, black only, printed on a CLEAR bottle.`,
@@ -379,39 +276,17 @@ function briefingText(){
 `- No gradients, shadows or soft edges. Photos must be screened to black dots.`,
 `- No other companies' logos, licensed characters or real people's likenesses.`,
 `- Keep ink coverage under 30%. Nothing smaller than 1.5mm tall.`,
-`- A nutrition panel, certification marks and legal text already take about a`,
-`  quarter of the label. Plan around them.`
-  ].join("\n");
-
-  const mine = [
-`Bottle: ${p.name} - label ${p.mm[0]} x ${p.mm[1]} mm, safe print width ${p.pr} mm.`,
-`Brand or event: ${b.brand || "(not decided yet)"}`,
-`Theme so far: ${b.theme || "(not decided yet)"}`,
-`Style preference: ${b.technique}`,
-b.required_text.length
-  ? `Text that must appear: ${b.required_text.join(" | ")}`
-  : `Text that must appear: (none yet)`
+`- Do not add a nutrition panel, certification marks or legal text. We add`,
+`  those ourselves; they already take about a quarter of the label, so leave`,
+`  room and plan the artwork around them.`
   ].join("\n");
 
   const close = [
-`Interview me - up to five short questions, one at a time - then finish with`,
-`ONLY a JSON object in a code block, in this shape and nothing after it:`,
+`Interview me - up to five short questions, one at a time - then show me a`,
+`black line concept so I can see the direction. Label it clearly as a concept.`,
 ``,
-`{`,
-`  "schema": "bottle-brief/1",`,
-`  "brand": "",`,
-`  "theme": "one or two sentences describing the artwork",`,
-`  "technique": "line_art | halftone | type_led",`,
-`  "required_text": [],`,
-`  "motifs": [],`,
-`  "mood": [],`,
-`  "avoid": [],`,
-`  "notes": ""`,
-`}`,
-``,
-`Do not attempt the finished print file - you do not have the templates, so`,
-`anything you generate would look plausible and be unusable. A rough black`,
-`line concept is welcome, clearly labelled as a concept.`
+`Do not try to produce the finished print file. You do not have the templates,`,
+`so anything you generate would look plausible and be unusable.`
   ].join("\n");
 
   if (RULES_URL) {
@@ -419,33 +294,23 @@ b.required_text.length
 `Open ${RULES_URL} and follow it. It is the full artwork brief for this job.`,
 `If you cannot open it, say so plainly and work from the constraints below.`,
 ``,
-`I am ordering printed water bottles and need help writing an artwork brief.`,
-``,
-mine,
-``,
-core,
-``,
-close
+`I am ordering printed water bottles and need help designing the artwork.`,
+``, mine, ``, core, ``, close
     ].join("\n");
   }
 
-  // No rules URL configured: send the constraints in full.
   return [
-`I am ordering printed water bottles and need help writing an artwork brief.`,
+`I am ordering printed water bottles and need help designing the artwork.`,
 `Please interview me.`,
-``,
-mine,
-``,
-core,
+``, mine, ``, core,
 ``,
 `Also avoid: solid black across the whole label, lines thinner than 0.2mm,`,
 `white text sitting on an unprinted area, and metallic or fluorescent effects.`,
-``,
-close
+``, close
   ].join("\n");
 }
 
-/* ---------- launch ---------- */
+/* ---------- clipboard ---------- */
 async function toClipboard(text){
   try{
     if(navigator.clipboard && window.isSecureContext){
@@ -462,22 +327,25 @@ async function toClipboard(text){
   }catch(e){ return false; }
 }
 
-// Prefill parameters are undocumented on both services and have broken before,
-// so always copy to the clipboard first. If the prefill fails the user can paste.
+/* Prefill parameters are undocumented on both services and have broken
+   before, so the briefing is always copied to the clipboard as well. Over
+   the length cap the parameter is dropped rather than risking a truncated
+   prompt arriving silently. */
 function providerUrl(which, text){
   const enc = encodeURIComponent(text);
   const url = which === "claude"
     ? "https://claude.ai/new?q=" + enc
     : "https://chatgpt.com/?q=" + enc;
-  return url.length > 7500 ? (which === "claude" ? "https://claude.ai/new" : "https://chatgpt.com/") : url;
+  return url.length > 7500
+    ? (which === "claude" ? "https://claude.ai/new" : "https://chatgpt.com/")
+    : url;
 }
 
-$("copyonly").addEventListener("click", async () => {
-  const ok = await toClipboard(briefingText());
-  say("launchStatus", ok ? "Briefing copied. Paste it into any AI assistant."
-                         : "Could not copy automatically — select the text manually.",
-      ok ? "ok" : "bad");
-});
+function say(el, msg, kind){
+  const n = $(el);
+  n.textContent = msg;
+  n.className = "status show " + kind;
+}
 
 /* The launch control is an <a target="_blank">, not a button calling
    window.open. Awaiting the clipboard write before window.open ends the
@@ -485,22 +353,20 @@ $("copyonly").addEventListener("click", async () => {
    the call as an unsolicited popup and block it. A native anchor navigation
    is never blocked, so the href is kept current and the clipboard write
    happens alongside the navigation rather than before it. */
-function refreshLaunch(){
-  const a = $("launch");
-  if(!a) return;
-  a.href = providerUrl(provider.get(), briefingText());
+function refresh(){
+  const text = briefingText();
+  $("launch").href = providerUrl(provider(), text);
+  $("preview").textContent = text;
 }
-document.addEventListener("input", refreshLaunch);
-document.addEventListener("change", refreshLaunch);
-$("provider").addEventListener("click", refreshLaunch);
-$("technique").addEventListener("click", refreshLaunch);
-$("components").addEventListener("click", refreshLaunch);
-refreshLaunch();
+document.addEventListener("input", refresh);
+document.addEventListener("change", refresh);
+["provider","technique"].forEach(id => $(id).addEventListener("click", refresh));
+sel.addEventListener("change", renderSpec);
+refresh();
 
 $("launch").addEventListener("click", () => {
-  const text = briefingText();
   const prefilled = $("launch").href.includes("?q=");
-  toClipboard(text).then(ok => {
+  toClipboard(briefingText()).then(ok => {
     say("launchStatus",
         (ok ? "Briefing copied to your clipboard. " : "Could not copy automatically. ") +
         (prefilled
@@ -510,93 +376,11 @@ $("launch").addEventListener("click", () => {
   });
 });
 
-/* ---------- read back what the assistant produced ---------- */
-// This is DATA, not instructions. It is parsed and used to fill form fields only;
-// nothing in it is ever executed or forwarded to a model as a command.
-function extractJson(raw){
-  let t = raw.trim();
-  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if(fence) t = fence[1].trim();
-  const a = t.indexOf("{"), b = t.lastIndexOf("}");
-  if(a === -1 || b <= a) throw new Error("no JSON object found");
-  const v = JSON.parse(t.slice(a, b + 1));
-  if(typeof v !== "object" || Array.isArray(v) || v === null) throw new Error("not an object");
-  return v;
-}
-
-const str = v => typeof v === "string" ? v.trim() : "";
-const arr = v => Array.isArray(v) ? v.filter(x => typeof x === "string").map(s => s.trim()).filter(Boolean) : [];
-
-$("apply").addEventListener("click", () => {
-  const raw = $("paste").value;
-  if(!raw.trim()){ say("pasteStatus", "Nothing to read — paste the assistant's reply first.", "bad"); return; }
-  let v;
-  try{ v = extractJson(raw); }
-  catch(e){
-    say("pasteStatus",
-        "Could not read that. Copy the whole block including the { and } braces. (" + e.message + ")",
-        "bad");
-    return;
-  }
-  const filled = [];
-  if(str(v.brand)){ $("brand").value = str(v.brand); filled.push("brand"); }
-  if(str(v.theme)){
-    let t = str(v.theme);
-    const extra = [["Motifs", arr(v.motifs)], ["Mood", arr(v.mood)], ["Avoid", arr(v.avoid)]]
-      .filter(([,a]) => a.length).map(([k,a]) => k + ": " + a.join(", "));
-    if(extra.length) t += "\n\n" + extra.join("\n");
-    $("theme").value = t; filled.push("theme");
-  }
-  if(["line_art","halftone","type_led"].includes(str(v.technique))){
-    technique.set(str(v.technique)); filled.push("style");
-  }
-  if(arr(v.required_text).length){
-    $("required").value = arr(v.required_text).join("\n"); filled.push("required text");
-  }
-  if(str(v.notes)){
-    $("notes").value = ($("notes").value ? $("notes").value + "\n" : "") + str(v.notes);
-    filled.push("notes");
-  }
-  say("pasteStatus",
-      filled.length ? "Filled in: " + filled.join(", ") + ". Check it over and edit anything that is off."
-                    : "That was valid JSON but had none of the fields we need.",
-      filled.length ? "ok" : "bad");
-  if(filled.length) $("brand").scrollIntoView({behavior:"smooth", block:"center"});
-});
-
-/* ---------- output ---------- */
-function ready(){
-  const b = brief();
-  const m = missing(b);
-  if(m.length){
-    say("outStatus", "Still needed: " + m.join(", ") + ".", "bad");
-    return null;
-  }
-  return b;
-}
-
-$("download").addEventListener("click", async () => {
-  const b = ready(); if(!b) return;
-  const text = JSON.stringify(b, null, 2);
-  const slug = (b.brand.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"") || "brief");
-  $("out").hidden = false; $("out").textContent = text;
-  const result = await saveFile(`bottle-brief-${slug}-${b.profile_id}.json`, text);
-  if (result === "saved") {
-    say("outStatus", "Downloaded. Email it to us with your logo and any reference images.", "ok");
-  } else if (result === "declined") {
-    say("outStatus", "Download cancelled. The brief is shown below — copy it instead.", "info");
-  } else {
-    say("outStatus", "Could not save a file here. Copy the brief below instead.", "bad");
-  }
-});
-
-$("copyjson").addEventListener("click", async () => {
-  const b = ready(); if(!b) return;
-  const text = JSON.stringify(b, null, 2);
-  const ok = await toClipboard(text);
-  $("out").hidden = false; $("out").textContent = text;
-  say("outStatus", ok ? "Copied. Paste it into an email to us."
-                      : "Could not copy — select the text below instead.",
+$("copyonly").addEventListener("click", async () => {
+  const ok = await toClipboard(briefingText());
+  say("launchStatus",
+      ok ? "Briefing copied. Paste it into any AI assistant."
+         : "Could not copy automatically — open the panel below and copy it manually.",
       ok ? "ok" : "bad");
 });
 </script>
