@@ -58,6 +58,37 @@ This makes `RULES_URL` load-bearing. If it is wrong, every customer hits the
 stop message. That is the intended behaviour — it is visible and fixable,
 unlike silently degraded output.
 
+### Proof of read
+
+The stop instruction only covers the case where the assistant *knows* it
+failed. It does not cover the more common and more dangerous case: browsing
+is available, the assistant decides the content is guessable, never fetches,
+and answers from general knowledge about bottle printing. Nothing looks
+wrong — to the assistant or the customer.
+
+So `design-rules.md` §0 carries a confirmation code, and the briefing asks
+the assistant to open its reply with it. An assistant that did not fetch the
+page cannot know the code. The customer sees `RULESET AFB-2026-11` or they do
+not, and that is a check anyone can perform without understanding any of this.
+
+Change the code whenever the rules change materially. It doubles as a version
+marker: a concept arriving with a stale code was briefed against stale rules.
+
+### What actually determines whether the fetch works
+
+Not the customer's account type or plan. A public URL is public. What varies:
+
+- **Whether browsing is enabled** in that assistant. Some configurations have
+  it off entirely.
+- **Whether the model chooses to fetch.** Covered by the confirmation code.
+- **Whether the host blocks AI user agents.** This is the one that catches
+  people hosting on their own site: Cloudflare bot protection and
+  `robots.txt` rules aimed at `GPTBot` / `ClaudeBot` / `PerplexityBot` will
+  block the fetch while the page loads perfectly in a browser.
+  `raw.githubusercontent.com` does not block them.
+- **Content type.** Serve `text/plain` or `text/markdown`. Link the *raw*
+  file, never a GitHub `blob/` page, which is a JavaScript application.
+
 The only inline-rules path left is the misconfiguration case where
 `RULES_URL` is empty, so the page has nothing to point at.
 

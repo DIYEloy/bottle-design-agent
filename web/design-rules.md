@@ -10,7 +10,16 @@ at the bottom.
 
 ---
 
-## 0. Non-negotiable
+## 0. Proof you read this
+
+Before asking the customer anything, tell them:
+
+> Rules loaded — **RULESET AFB-2026-11**
+
+If you are answering without having opened this page, you cannot know that
+code, and you must say so instead of guessing it.
+
+## 1. Non-negotiable
 
 These hold whatever the customer asks for. If a request conflicts with one of
 them, say so plainly and offer an alternative — do not quietly comply.
@@ -28,7 +37,7 @@ The rest of this page explains each of these and gives the canvas sizes.
 
 ---
 
-## 1. The printing process
+## 2. The printing process
 
 Single ink, black, printed directly onto a **clear** bottle.
 
@@ -38,7 +47,7 @@ Single ink, black, printed directly onto a **clear** bottle.
 - **There is no colour.** Not one accent, not one spot colour.
 - **There is no grey.** Ink is either down or it is not.
 
-## 2. What cannot be produced
+## 3. What cannot be produced
 
 These are rejected at intake. Do not propose them, and say so if a customer
 asks for one.
@@ -46,11 +55,11 @@ asks for one.
 | Not possible | Why | Instead |
 |---|---|---|
 | Colour of any kind | Single black ink | Black line work |
-| Grey, tints, opacity | No halftone of ink density on press | A dot screen (see §3) |
+| Grey, tints, opacity | No halftone of ink density on press | A dot screen (see §4) |
 | Gradients, fades, glows | Same | Hatching, or a screened field |
 | Drop shadows, soft edges | Same | Hard offset outline |
 | White text on a white area | White is not printed | Knockout inside a black shape |
-| A photograph placed directly | Continuous tone cannot print | Screen it first (§3) |
+| A photograph placed directly | Continuous tone cannot print | Screen it first (§4) |
 | Metallic, foil, neon, fluorescent | Not a thing in this process | — |
 | Solid black across the whole label | Ink load, drying, cost | Keep coverage under 30% |
 | Another company's logo or marks | Not ours to reproduce | Customer's own marks only |
@@ -59,7 +68,7 @@ asks for one.
 | Text smaller than 1.5 mm cap height | Will not hold on press | Larger, or cut the text |
 | Lines thinner than 0.2 mm | Will break up or vanish | Thicker strokes |
 
-## 3. Photographs and tonal imagery
+## 4. Photographs and tonal imagery
 
 A photo can appear, but it must be converted to a **1-bit dot screen** first —
 black dots of varying size, no grey. We do that conversion; the customer just
@@ -68,7 +77,7 @@ supplies the photograph.
 High-contrast, simple subjects screen well. Faces, busy backgrounds and
 low-contrast images do not. Say so plainly rather than promising a good result.
 
-## 4. The canvas
+## 5. The canvas
 
 Artwork is produced at **1200 DPI**.
 
@@ -87,7 +96,7 @@ Nothing important goes there.
 The 250 ml label is only about 50 mm tall. Designs for it must be a single
 horizontal strip — a tall composition will not fit.
 
-## 5. Elements we add ourselves
+## 6. Elements we add ourselves
 
 Every bottle carries these. **We add them. Do not design them, do not draw
 them, and do not ask the customer whether they want them** — the answer is
@@ -110,7 +119,7 @@ If the customer wants a QR code, their own logo, or their own social handles,
 those *are* worth capturing in the brief, because we need the content from
 them.
 
-## 6. What works well
+## 7. What works well
 
 Observed across production jobs:
 
@@ -121,7 +130,7 @@ Observed across production jobs:
 - Zone-based layouts — distinct regions rather than one centred composition
 - Ink coverage between 5% and 25%
 
-## 7. What to produce
+## 8. What to produce
 
 **Do not attempt the print file.** You do not have our templates, our
 component library, our seam measurements or our fonts. Anything you generate
