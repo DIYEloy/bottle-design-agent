@@ -258,7 +258,7 @@ function briefingText(){
   const required = lines($("required").value);
 
   const mine = [
-`Bottle: ${p.name} - label ${p.mm[0]} x ${p.mm[1]} mm, safe print width ${p.pr} mm.`,
+`Bottle: ${p.name} (profile ${p.id}) - label ${p.mm[0]} x ${p.mm[1]} mm, safe print width ${p.pr} mm.`,
 `Brand or event: ${brand || "(not decided yet)"}`,
 `Theme so far: ${theme || "(not decided yet)"}`,
 `Style preference: ${technique()}`,

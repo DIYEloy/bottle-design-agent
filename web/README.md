@@ -17,8 +17,9 @@ page (not built yet), which is where mockups and contact happen.
 - **No "must include" checkboxes.** Which certification marks, nutrition panel
   and legal text go on a bottle is not a customer choice — they are always
   added, and the approved versions live with us. Asking invites a customer to
-  deselect something we are legally required to print. `design-rules.md` §5
-  states them instead, and tells the assistant not to draw them.
+  deselect something we are legally required to print. `design-rules.md` §6
+  states them instead, and tells the assistant to place them from our data
+  (nutrition values from `designs/style.json`, labelled boxes for trademarks).
 - **No contact capture or brief download.** That belongs on the upload page,
   once there is something to attach it to.
 
@@ -68,7 +69,7 @@ wrong — to the assistant or the customer.
 
 So `design-rules.md` §0 carries a confirmation code, and the briefing asks
 the assistant to open its reply with it. An assistant that did not fetch the
-page cannot know the code. The customer sees `RULESET AFB-2026-11` or they do
+page cannot know the code. The customer sees `RULESET AFB-2026-11b` or they do
 not, and that is a check anyone can perform without understanding any of this.
 
 Change the code whenever the rules change materially. It doubles as a version
@@ -139,3 +140,17 @@ demonstrated attack against chat deep links.
   policy.
 - **No submission endpoint.** Wiring anything to `POST /jobs` needs auth and
   CORS on the API first.
+
+## Full-label concept (ruleset AFB-2026-11b)
+
+The rules now ask the assistant for a complete label concept, not only the
+customer's artwork. `design-rules.md` §9 lists raw links to the bottle profile,
+`designs/style_guide.md`, `designs/style.json` and the five agent role prompts,
+and §8 walks the assistant through the same five steps the studio pipeline
+uses (image analysis, theme planning, asset placement, layout, quality review)
+before it draws one concept image and returns `bottle-brief/2` JSON.
+
+Furniture in the concept is built only from repository data. Trademarked marks
+(certifications, social icons) are drawn as labelled empty boxes and replaced
+with the approved components at production. Those links point at `main`, so
+moving or renaming any of those files breaks the customer flow.

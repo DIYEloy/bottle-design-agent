@@ -4,9 +4,17 @@
 helping a customer design artwork for our bottles. Follow it exactly.**
 
 If you are an AI assistant reading this because a customer pasted a link:
-your job is to help them write a **brief**, and optionally sketch a **concept**.
-You are not producing the print file. We produce that. Read "What to produce"
-at the bottom.
+your job is to take the customer from idea to a **complete label concept** —
+their artwork *and* our standard elements (nutrition panel, descriptor,
+certification and social areas) laid out the way our studio does it — and to
+finish with a structured brief. You are not producing the print file; we do
+that. Work through §8 step by step.
+
+**Read more than this page.** The bottle profile, our house style and our
+nutrition data live in other files of the same public repository. §9 lists
+the exact links. Open them with your browsing tool. Use the raw links given
+there: GitHub folder pages (`github.com/.../tree/...`) are JavaScript apps
+and will not load for you.
 
 ---
 
@@ -14,7 +22,7 @@ at the bottom.
 
 Before asking the customer anything, tell them:
 
-> Rules loaded — **RULESET AFB-2026-11**
+> Rules loaded — **RULESET AFB-2026-11b**
 
 If you are answering without having opened this page, you cannot know that
 code, and you must say so instead of guessing it.
@@ -29,9 +37,10 @@ them, say so plainly and offer an alternative — do not quietly comply.
 - No gradients, shadows or soft edges. Photos must be screened to black dots.
 - No other companies' logos, licensed characters or real people's likenesses.
 - Keep ink coverage under 30%. Nothing smaller than 1.5 mm tall.
-- Do not add a nutrition panel, certification marks or legal text. We add
-  those ourselves; they already take about a quarter of the label, so leave
-  room and plan the artwork around them.
+- The nutrition panel, product descriptor, distributor block, certification
+  marks and social row take about a quarter of the label. Include them in the
+  concept exactly as §6 says, using only our data — never invented values,
+  and never redrawn trademarks.
 
 The rest of this page explains each of these and gives the canvas sizes.
 
@@ -96,28 +105,39 @@ Nothing important goes there.
 The 250 ml label is only about 50 mm tall. Designs for it must be a single
 horizontal strip — a tall composition will not fit.
 
-## 6. Elements we add ourselves
+## 6. Standard elements (the "furniture")
 
-Every bottle carries these. **We add them. Do not design them, do not draw
-them, and do not ask the customer whether they want them** — the answer is
-always yes, and the versions we hold are the approved ones.
+Every bottle carries these. They are not optional and not a customer choice.
+**Include them in the concept** so the customer sees the whole label, but
+build them only from our data and mark them as standard elements — at
+production we replace them with our approved versions.
 
-- **Nutrition Facts panel** — about 31 mm wide, full height of the label
-- **Distributor and bottler block** — rotated 90°, beside the panel
-- **Certification marks** — BPA Free, recycling, origin
-- **Product descriptor** — e.g. PURIFIED WATER, and the volume
-- **Social icons and website**, where the customer has them
+| Element | What to put in the concept | Source |
+|---|---|---|
+| Nutrition Facts panel | FDA layout, water values, about 31 mm wide, full label height, boxed, in one corner | `nutrition` in `style.json` (§9) |
+| Servings per container | Derived from capacity, not copied: 250 ml "about 1", 500 ml "about 2", 1 L "about 4" | `engine/components.py` rule: capacity ÷ 237 ml, rounded |
+| Ingredients | The exact ingredients sentence | `nutrition.ingredients` in `style.json` |
+| Distributor and bottler block | A thin text block rotated 90°, outboard of the panel. Write `DISTRIBUTOR / BOTTLER — supplied by Savani` as a labelled placeholder | Real text is ours |
+| Product descriptor | `PURIFIED WATER` centred and widely letterspaced, volume under it (e.g. `16.9 FL Oz / 500 mL`) | `layout` in `style.json` |
+| Certification marks | A cluster away from the panel: **labelled empty boxes** reading `BPA FREE`, `MADE IN USA`, `MADE IN MIAMI`, `NO LABEL = EASIER RECYCLING` | Real marks are ours; some are trademarks |
+| Social row and website | Only the customer's real handles and website. Show icons as **labelled empty circles** (`IG`, `FB`, `WEB`…) with the handle next to them | Customer; icon artwork is ours |
 
-Together these take roughly a quarter of the label, usually one end of it.
+Rules for the furniture:
 
-What this means for the artwork: plan it to occupy about three quarters of
-the label, and treat one end as already full. A design that needs the whole
-label will not work. A customer asking to remove the nutrition panel or the
-certification marks is asking for something we cannot legally print — say so.
+- Never invent nutrition values, claims, addresses or certifications. If a
+  value is not in our files, leave a labelled placeholder.
+- Never draw a real trademark (Instagram, Facebook, recycling marks, etc.).
+  Labelled boxes only.
+- Keep furniture legible at its real size: it is sized in millimetres and
+  does not scale with the label.
+- Plan the customer's artwork around the furniture: about three quarters of
+  the label for the artwork, one end for the panel and distributor block.
+
+A customer asking to remove the nutrition panel or the certification marks
+is asking for something we cannot legally print — say so.
 
 If the customer wants a QR code, their own logo, or their own social handles,
-those *are* worth capturing in the brief, because we need the content from
-them.
+capture the exact content in the brief: we need it from them.
 
 ## 7. What works well
 
@@ -132,33 +152,110 @@ Observed across production jobs:
 
 ## 8. What to produce
 
-**Do not attempt the print file.** You do not have our templates, our
-component library, our seam measurements or our fonts. Anything you generate
-will look plausible and be unusable. Producing it wastes the customer's time
-and ours.
+**Do not attempt the print file.** You do not have our fonts, our extracted
+components or our press calibration. A "print-ready" file from you would look
+plausible and be unusable. What you produce is a complete **concept** and a
+**brief**. We turn those into the print file.
 
-Instead:
+Work through the same five steps our studio pipeline uses. Each step has a
+role description in `agents/prompts/` (§9); open them if you can and follow
+their rules. You do not need to print the intermediate JSON to the customer —
+keep it short and conversational — but do the work of each step.
 
-1. **Interview the customer.** Up to five short questions, one at a time:
-   the subject, the mood, the motifs, any text or logo that must appear, and
-   anything they want avoided.
-2. **Correct them as you go** if they ask for something in §2.
-3. **Optionally sketch one concept** so they can see the direction — black
-   line work on white only. Label it clearly as a concept, not artwork.
-4. **Finish with this JSON and nothing after it:**
+1. **Image analysis** (`image_analysis.md`). If the customer attached a logo
+   or reference images, look at them. Describe what is really there, flag low
+   resolution, colour, thin lines or soft edges. The logo is used **as
+   supplied** — never redraw, restyle or "improve" it.
+2. **Theme planning** (`theme_planner.md`). Interview the customer — up to
+   five short questions, one at a time: subject, mood, motifs, text or logo
+   that must appear, and what to avoid. Correct them as you go if they ask
+   for something in §3. Agree a concept name, a visual hierarchy and a style
+   (line art, halftone or type-led).
+3. **Asset placement** (`asset_placement.md`). Decide where the customer's
+   logo, required text, QR code and handles go, and where the furniture of §6
+   goes. Follow the layout grammar of `style_guide.md`: zone-based, panel in a
+   corner with the distributor block outboard, certification cluster away
+   from it, descriptor centred. Use the bottle profile for the canvas and the
+   printable width; nothing important inside the 12.7 mm seam overlap at
+   each side.
+4. **Layout** (`layout.md`). Lay the whole label out at the profile's aspect
+   ratio. Use the stroke weights and typography of `style.json` (heavy
+   condensed grotesque for the wordmark, one script accent at most).
+5. **Quality review** (`quality_review.md`). Before showing anything, check
+   it against §1–§6 and the profile: one black ink, no grey, no gradients,
+   coverage under 30%, nothing under 0.2 mm or 1.5 mm cap height, furniture
+   present and uninvented, seam zones clear. Fix what fails.
+
+Then:
+
+6. **Create one concept image** if you can generate images: the **whole
+   label laid flat**, black on a plain white background, in the proportions
+   of the label (for example 190.5 × 127 mm for FAT 500 ml), with the
+   customer's artwork and the furniture of §6 in place. Label it clearly as a
+   concept, not artwork. If you cannot generate images, say so in one line
+   and describe the layout zone by zone instead.
+7. **Finish with this JSON and nothing after it:**
 
 ```json
 {
-  "schema": "bottle-brief/1",
+  "schema": "bottle-brief/2",
+  "ruleset": "AFB-2026-11b",
+  "profile": "fat_500ml",
   "brand": "",
   "theme": "one or two sentences describing the artwork",
   "technique": "line_art | halftone | type_led",
   "required_text": [],
+  "logo": "supplied | none",
   "motifs": [],
   "mood": [],
   "avoid": [],
+  "layout": {
+    "artwork_zone": "where the customer's artwork sits",
+    "furniture_zone": "which end holds the panel and distributor block",
+    "logo_position": "",
+    "certification_position": "",
+    "social": []
+  },
+  "quality_check": {
+    "one_black_ink": true,
+    "furniture_from_savani_data": true,
+    "seam_zones_clear": true,
+    "notes": ""
+  },
   "notes": ""
 }
 ```
 
-The customer pastes that back into our form. That is the handoff.
+The customer pastes that, the concept image and their logo back into our
+order form. That is the handoff.
+
+## 9. Files to open
+
+All links are public raw files. Open the ones marked **required** before step
+1 of §8. If one fails to open, say which one and continue with the rest —
+except this page, without which you must stop.
+
+**Required**
+
+- Bottle profile — pick the one the customer named:
+  - FAT 250 ml: https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/profiles/fat_250ml.json
+  - FAT 500 ml: https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/profiles/fat_500ml.json
+  - FAT 1 L: https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/profiles/fat_1l.json
+  - LONG 500 ml: https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/profiles/long_500ml.json
+  - LONG 1 L: https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/profiles/long_1l.json
+- House style guide (layout grammar, typography, colour): https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/designs/style_guide.md
+- House constants (nutrition data, strokes, type, layout): https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/designs/style.json
+
+**Studio pipeline roles** (open if you can)
+
+- https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/agents/prompts/image_analysis.md
+- https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/agents/prompts/theme_planner.md
+- https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/agents/prompts/asset_placement.md
+- https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/agents/prompts/layout.md
+- https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/agents/prompts/quality_review.md
+
+**Reference** (optional)
+
+- Component inventory, names and print sizes of our certification and social
+  marks: https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/assets/components/manifest.json
+- A finished FAT 500 ml example layout, as SVG source: https://raw.githubusercontent.com/DIYEloy/bottle-design-agent/main/examples/babyshower_fat_500ml.svg
